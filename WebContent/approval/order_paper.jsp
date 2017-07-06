@@ -5,6 +5,8 @@
     MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo");
 %>
 <script type="text/javascript" src="/moa/js/myajax.js"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
 <script>
     window.onload = function () {
         var date = new Date();
@@ -34,7 +36,7 @@
             alert("내용을 입력해주세요");
             return;
         } else {
-            oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+//            oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
             document.paperForm.action = "<%=root%>/appcontrol";
             document.paperForm.submit();
         }
@@ -155,6 +157,10 @@
         closeModal();
     }
 
+    $(document).ready(function () {
+        $('#content').summernote();
+    });
+
 </script>
 <style>
     /* The Modal (background) */
@@ -196,7 +202,6 @@
         cursor: pointer;
     }
 </style>
-<script type="text/javascript" src="/moa/editor/js/service/HuskyEZCreator.js" charset="EUC-KR"></script>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -273,7 +278,8 @@
                             <th>수신부서</th>
                             <td colspan="3">
                                 <input type="text" id="receiveDept" name="receiveDept">
-                                <input type="button" name="selectDept" id="selectDept" onclick="doModalDept();" value="수신부서지정">
+                                <input type="button" name="selectDept" id="selectDept" onclick="doModalDept();"
+                                       value="수신부서지정">
                                 <%--<input type="button" name="viewDept" id="viewDept" value="수신부서보기">--%>
                             </td>
                         </tr>
@@ -296,26 +302,6 @@
                             <td colspan="6">
                             <textarea name="content" id="content" cols="" rows="30" style="width: 100%;">
                             </textarea>
-                                <script type="text/javascript">
-                                    var oEditors = [];
-                                    nhn.husky.EZCreator.createInIFrame({
-                                        oAppRef: oEditors,
-                                        elPlaceHolder: "content",
-                                        sSkinURI: "/moa/editor/SmartEditor2Skin.html",
-                                        htParams: {
-                                            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-                                            bUseToolbar: true,
-                                            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-                                            bUseVerticalResizer: false,
-                                            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-                                            bUseModeChanger: true,
-                                            fOnBeforeUnload: function () {
-
-                                            }
-                                        },
-                                        fCreator: "createSEditor2"
-                                    });
-                                </script>
                             </td>
                         </tr>
                         <tr>

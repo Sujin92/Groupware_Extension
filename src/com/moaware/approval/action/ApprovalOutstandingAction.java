@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by gwasan on 2017. 7. 3..
  */
-public class approvalOutstandingAction implements Action {
+public class ApprovalOutstandingAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

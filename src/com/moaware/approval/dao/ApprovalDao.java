@@ -2,7 +2,6 @@ package com.moaware.approval.dao;
 
 import com.moaware.approval.model.ApprovalDto;
 import com.moaware.approval.model.DeptDto;
-import com.moaware.approval.service.ApprovalService;
 import com.moaware.member.model.MemberDto;
 
 import java.util.List;
@@ -15,4 +14,5 @@ public interface ApprovalDao {
     List<MemberDto> getMember();
     List<DeptDto> getDept();
     List<ApprovalDto> confirmList(int type, String emp_num);
+    ApprovalDto viewPaper(int seq);
 }

@@ -6,6 +6,7 @@ package com.moaware.approval.model;
 public class ApprovalDto {
     String doc_num;
     String emp_num;
+    String emp_name;
     String doc_type_num;
     String doc_name;
     String doc_state;
@@ -19,6 +20,14 @@ public class ApprovalDto {
     String confirm_line_ok_1;
     String confirm_line_ok_2;
     String confirm_line_ok_3;
+
+    public String getEmp_name() {
+        return emp_name;
+    }
+
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
+    }
 
     public String getDoc_content() {
         return doc_content;

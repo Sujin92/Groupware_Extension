@@ -8,7 +8,6 @@ import com.moaware.member.model.MemberDto;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -85,5 +84,10 @@ public class ApprovalServiceImpl implements ApprovalService{
     @Override
     public List<ApprovalDto> confirmList(int type, String emp_num) {
         return ApprovalDaoImpl.getApprovalDaoImpl().confirmList(type, emp_num);
+    }
+
+    @Override
+    public ApprovalDto viewPaper(int seq) {
+        return ApprovalDaoImpl.getApprovalDaoImpl().viewPaper(seq);
     }
 }

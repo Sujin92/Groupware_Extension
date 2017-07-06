@@ -3,17 +3,30 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR" %>
 <%@ include file="/common/member_header.jsp" %>
-<script>
-    window.onload = function() {
-        alert("Come in jsp !!!");
-    }
-</script>
 <%
     List<ApprovalDto> list = (List<ApprovalDto>) request.getAttribute("list");
-    System.out.println("START!!!" + list.get(0).getDoc_subject());
-    System.out.println("jsp list size : " + list.size());
-    if (list.size() != 0) {
 %>
+<script>
+    function viewPaper(num) {
+        document.appForm.act.value = "view";
+//        document.appForm.bcode.value = bcode;
+//        document.appForm.pg.value = pg;
+//        document.appForm.key.value = key;
+//        document.appForm.word.value = word;
+//        document.appForm.seq.value = num;
+
+        document.appForm.action = root + "/appcontrol";
+        document.appForm.submit();
+    }
+</script>
+<form name="appForm" method="post" action="">
+    <input type="hidden" name="act" value="">
+    <input type="hidden" name="bcode" value="">
+    <input type="hidden" name="pg" value="">
+    <input type="hidden" name="key" value="">
+    <input type="hidden" name="word" value="">
+    <input type="hidden" name="seq" value="">
+</form>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -89,7 +102,7 @@
                     </thead>
                     <tbody>
                     <%
-                        if (list.size() != 0) {
+                        if (!list.isEmpty()) {
                             int size = list.size();
                             for (int i = 0; i < size; i++) {
                                 ApprovalDto approvalDto = list.get(i);
@@ -98,8 +111,8 @@
                         <td><%=approvalDto.getDoc_num()%></td>
                         <td><%=approvalDto.getDraft_date()%></td>
                         <td>@2017.11.11</td>
-                        <td><%=approvalDto.getDoc_subject()%></td>
-                        <td>정성욱</td>
+                        <td onclick="javascript:viewPaper(<%=approvalDto.getDoc_num()%>)"><%=approvalDto.getDoc_subject()%></td>
+                        <td><%=approvalDto.getEmp_name()%></td>
                         <td>미결재</td>
                         <td>미결</td>
                         <td>비고</td>
@@ -135,12 +148,3 @@
 
 </body>
 </html>
-<%
-    } else {
-%>
-<script>
-alert("fail");
-</script>
-<%
-    }
-%>

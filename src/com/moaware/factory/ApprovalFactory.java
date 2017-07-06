@@ -3,7 +3,7 @@ package com.moaware.factory;
 import com.moaware.action.Action;
 import com.moaware.approval.action.ApprovalGetAction;
 import com.moaware.approval.action.ApprovalWriteAction;
-import com.moaware.approval.action.approvalOutstandingAction;
+import com.moaware.approval.action.ApprovalOutstandingAction;
 
 /**
  * Created by gwasan on 2017. 6. 24..
@@ -16,7 +16,7 @@ public class ApprovalFactory {
     static {
         approvalWriteAction = new ApprovalWriteAction();
         approvalGetAction = new ApprovalGetAction();
-        approvalOutstandingAction = new approvalOutstandingAction();
+        approvalOutstandingAction = new ApprovalOutstandingAction();
 
 
     }

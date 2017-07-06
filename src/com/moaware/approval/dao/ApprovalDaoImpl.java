@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by gwasan on 2017. 6. 20..
  */
-public class ApprovalDaoImpl implements ApprovalDao{
+public class ApprovalDaoImpl implements ApprovalDao {
     private static ApprovalDao approvalDaoImpl;
 
     static {
@@ -137,10 +137,11 @@ public class ApprovalDaoImpl implements ApprovalDao{
             conn = DBConnection.getConnection();
             StringBuffer sql = new StringBuffer();
             sql.append("select * \n");
-            sql.append("from DOCUMENT_INFO \n");
-            sql.append("where (CONFIRM_LINE_1 = ? and CONFIRM_LINE_1_OK = ?) \n");
+            sql.append("from DOCUMENT_INFO d, member_info m\n");
+            sql.append("where d.emp_num = m.emp_num \n");
+            sql.append("    and ((CONFIRM_LINE_1 = ? and CONFIRM_LINE_1_OK = ?) \n");
             sql.append("    or (CONFIRM_LINE_2 = ? and CONFIRM_LINE_2_OK = ?) \n");
-            sql.append("    or (CONFIRM_LINE_3 = ? and CONFIRM_LINE_3_OK = ?) ");
+            sql.append("    or (CONFIRM_LINE_3 = ? and CONFIRM_LINE_3_OK = ?)) ");
             pstmt = conn.prepareStatement(sql.toString());
             int idx = 0;
             pstmt.setString(++idx, emp_num);
@@ -154,6 +155,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
                 ApprovalDto approvalDto = new ApprovalDto();
                 approvalDto.setDoc_num(rs.getString("doc_num"));
                 approvalDto.setEmp_num(rs.getString("emp_num"));
+                approvalDto.setEmp_name(rs.getString("name"));
                 approvalDto.setDoc_type_num(rs.getString("doc_type_num"));
                 approvalDto.setDoc_subject(rs.getString("doc_subject"));
                 approvalDto.setDoc_state(rs.getString("doc_state"));
@@ -167,16 +169,54 @@ public class ApprovalDaoImpl implements ApprovalDao{
                 approvalDto.setConfirm_line_ok_3(rs.getString("confirm_line_3_ok"));
                 approvalDto.setAttachment_path(rs.getString("attachment_path"));
 
-                System.out.println(approvalDto.getEmp_num());
                 list.add(approvalDto);
             }
-            System.out.println("list size: " + list.size());
-            System.out.println("list : " + list);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DBClose.close(conn, pstmt, rs);
         }
         return list;
+    }
+
+    @Override
+    public ApprovalDto viewPaper(int seq) {
+        ApprovalDto approvalDto = new ApprovalDto();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select * \n");
+            sql.append("from document_info d, member_info m \n");
+            sql.append("where d.emp_num = m.emp_num and doc_num = ?");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setInt(1, seq);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                approvalDto.setDoc_num(rs.getString("doc_num"));
+                approvalDto.setEmp_num(rs.getString("emp_num"));
+                approvalDto.setEmp_name(rs.getString("emp_name"));
+                approvalDto.setDoc_type_num(rs.getString("doc_type_num"));
+                approvalDto.setDoc_name(rs.getString("doc_name"));
+                approvalDto.setDoc_state(rs.getString("doc_state"));
+                approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setDraft_date(rs.getString("draft_date"));
+                approvalDto.setReceive_dept(rs.getString("receive_dept"));
+                approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
+                approvalDto.setConfirm_line_2(rs.getString("confirm_line_2"));
+                approvalDto.setConfirm_line_3(rs.getString("confirm_line_3"));
+                approvalDto.setConfirm_line_ok_1(rs.getString("confirm_line_ok_1"));
+                approvalDto.setConfirm_line_ok_2(rs.getString("confirm_line_ok_2"));
+                approvalDto.setConfirm_line_ok_3(rs.getString("confirm_line_ok_3"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+
+        return approvalDto;
     }
 }
