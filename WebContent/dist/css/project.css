@@ -1,0 +1,63 @@
+.container1 {
+	display: flex;
+	flex-direction: row;
+	margin: 20px;
+	padding: 10px;
+}
+
+.box {
+	background-color: #E2E4E6;
+	color: black;
+	border: 1px solid white;
+	height: 500px;
+	width: 400px;
+	margin-right: 10px;
+	padding: 10px;
+	overflow-y: auto;
+	border-top-left-radius: 20px 15px;
+}
+
+#inbox1 {
+	background-color: #E2E4E6;
+	color: dimgrey;
+}
+
+#inbox2 {
+	background-color: #E2E4E6;
+	color: dimgrey;
+}
+
+#inbox3 {
+	background-color: #E2E4E6;
+	color: dimgrey;
+}
+
+#inbox4 {
+	background-color: #E2E4E6;
+	color: dimgrey;
+}
+
+.headers {
+	padding	: 15px;
+	background-color: #f2f4f7;
+	color: #333333;
+	border: 1px solid white;
+}
+
+.card {
+	background-color: white;
+	height: auto;
+	width: 180px;
+}
+
+body {
+	background-color: #212528;
+}
+
+aside {
+	flex-basis: 160px;
+	flex-shrink: 0; color : black;
+	background-color: #717477;
+	padding: 20px;
+	color: white;
+}
