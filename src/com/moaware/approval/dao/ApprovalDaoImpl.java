@@ -188,7 +188,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
         try {
             conn = DBConnection.getConnection();
             StringBuffer sql = new StringBuffer();
-            sql.append("select * \n");
+            sql.append("select d.doc_num, m.emp_num, m.name, d.doc_type_num, d.doc_name, d.doc_state, d.doc_subject, d.draft_date, d.receive_dept, d.confirm_line_1, d.confirm_line_2, d.confirm_line_3, d.confirm_line_1_ok, d.confirm_line_2_ok, d.confirm_line_3_ok \n");
             sql.append("from document_info d, member_info m \n");
             sql.append("where d.emp_num = m.emp_num and doc_num = ?");
             pstmt = conn.prepareStatement(sql.toString());
@@ -196,8 +196,8 @@ public class ApprovalDaoImpl implements ApprovalDao {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 approvalDto.setDoc_num(rs.getString("doc_num"));
-                approvalDto.setEmp_num(rs.getString("emp_num"));
-                approvalDto.setEmp_name(rs.getString("emp_name"));
+//                approvalDto.setEmp_num(rs.getString("m.emp_num"));
+                approvalDto.setEmp_name(rs.getString("name"));
                 approvalDto.setDoc_type_num(rs.getString("doc_type_num"));
                 approvalDto.setDoc_name(rs.getString("doc_name"));
                 approvalDto.setDoc_state(rs.getString("doc_state"));
@@ -207,9 +207,9 @@ public class ApprovalDaoImpl implements ApprovalDao {
                 approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
                 approvalDto.setConfirm_line_2(rs.getString("confirm_line_2"));
                 approvalDto.setConfirm_line_3(rs.getString("confirm_line_3"));
-                approvalDto.setConfirm_line_ok_1(rs.getString("confirm_line_ok_1"));
-                approvalDto.setConfirm_line_ok_2(rs.getString("confirm_line_ok_2"));
-                approvalDto.setConfirm_line_ok_3(rs.getString("confirm_line_ok_3"));
+                approvalDto.setConfirm_line_ok_1(rs.getString("confirm_line_1_ok"));
+                approvalDto.setConfirm_line_ok_2(rs.getString("confirm_line_2_ok"));
+                approvalDto.setConfirm_line_ok_3(rs.getString("confirm_line_3_ok"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

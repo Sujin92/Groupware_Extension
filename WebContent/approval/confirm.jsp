@@ -13,9 +13,9 @@
 //        document.appForm.pg.value = pg;
 //        document.appForm.key.value = key;
 //        document.appForm.word.value = word;
-//        document.appForm.seq.value = num;
+        document.appForm.seq.value = num;
 
-        document.appForm.action = root + "/appcontrol";
+        document.appForm.action = "<%=root%>/appcontrol";
         document.appForm.submit();
     }
 </script>

@@ -32,7 +32,8 @@ public class ApprovalController extends HttpServlet{
             path = ApprovalFactory.getApprovalOutstandingAction().execute(request, response);
             PageMove.forward(path, request, response);
         } else if ("view".equals(act)) {
-
+            path = ApprovalFactory.getApprovalViewAction().execute(request, response);
+            PageMove.forward(path, request, response);
         }
     }
 
