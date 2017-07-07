@@ -188,7 +188,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
         try {
             conn = DBConnection.getConnection();
             StringBuffer sql = new StringBuffer();
-            sql.append("select d.doc_num, m.emp_num, m.name, d.doc_type_num, d.doc_name, d.doc_state, d.doc_subject, d.draft_date, d.receive_dept, d.confirm_line_1, d.confirm_line_2, d.confirm_line_3, d.confirm_line_1_ok, d.confirm_line_2_ok, d.confirm_line_3_ok \n");
+            sql.append("select d.doc_num, m.emp_num, m.name, d.doc_type_num, d.doc_name, d.doc_state, d.doc_content, d.doc_subject, d.draft_date, d.receive_dept, d.confirm_line_1, d.confirm_line_2, d.confirm_line_3, d.confirm_line_1_ok, d.confirm_line_2_ok, d.confirm_line_3_ok \n");
             sql.append("from document_info d, member_info m \n");
             sql.append("where d.emp_num = m.emp_num and doc_num = ?");
             pstmt = conn.prepareStatement(sql.toString());
@@ -202,6 +202,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
                 approvalDto.setDoc_name(rs.getString("doc_name"));
                 approvalDto.setDoc_state(rs.getString("doc_state"));
                 approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setDoc_content(rs.getString("doc_content"));
                 approvalDto.setDraft_date(rs.getString("draft_date"));
                 approvalDto.setReceive_dept(rs.getString("receive_dept"));
                 approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
