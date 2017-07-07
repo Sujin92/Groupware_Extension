@@ -23,7 +23,7 @@ function logincheck(){
 	}
 }
 </script>
-</head>	
+</head>
 <body>
 </head>
 <body>
