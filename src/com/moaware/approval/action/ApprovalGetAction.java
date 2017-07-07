@@ -13,6 +13,8 @@ import java.io.IOException;
 public class ApprovalGetAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return null;
+    	String aa = "aaaa";
+    	System.out.println("aaaaaaaaaaaaa");
+        return aa;
     }
 }
