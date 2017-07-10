@@ -90,4 +90,14 @@ public class ApprovalServiceImpl implements ApprovalService{
     public ApprovalDto viewPaper(int seq) {
         return ApprovalDaoImpl.getApprovalDaoImpl().viewPaper(seq);
     }
+
+    @Override
+    public void confirm(String doc_num, String type) {
+        ApprovalDaoImpl.getApprovalDaoImpl().confirm(doc_num, type);
+    }
+
+    @Override
+    public void cancel(String doc_num, String type) {
+        ApprovalDaoImpl.getApprovalDaoImpl().cancel(doc_num, type);
+    }
 }

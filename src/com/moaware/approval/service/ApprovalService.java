@@ -14,4 +14,6 @@ public interface ApprovalService {
     void getDept(HttpServletResponse response);
     List<ApprovalDto> confirmList(int type, String emp_num);
     ApprovalDto viewPaper(int seq);
+    void confirm(String doc_num, String type);
+    void cancel(String doc_num, String type);
 }

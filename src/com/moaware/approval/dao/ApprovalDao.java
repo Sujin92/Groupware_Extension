@@ -17,4 +17,6 @@ public interface ApprovalDao {
     List<ApprovalDto> confirmList(int type, String emp_num);
     ApprovalDto viewPaper(int seq);
     ConfirmDto getConfirmList(String con1, String con2, String con3);
+    void confirm(String doc_num, String type);
+    void cancel(String doc_num, String type);
 }

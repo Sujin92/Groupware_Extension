@@ -24,7 +24,8 @@ public class ApprovalDaoImpl implements ApprovalDao {
         approvalDaoImpl = new ApprovalDaoImpl();
     }
 
-    private ApprovalDaoImpl(){}
+    private ApprovalDaoImpl() {
+    }
 
     public static ApprovalDao getApprovalDaoImpl() {
         return approvalDaoImpl;
@@ -82,7 +83,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
             sql.append("ORDER BY a.dept_num, p.POSITION_NUM \n");
             pstmt = conn.prepareStatement(sql.toString());
             rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
                 memberDto.setEmp_num(rs.getString("emp_num"));
                 memberDto.setName(rs.getString("name"));
@@ -112,7 +113,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
             sql.append("select * from dept_info");
             pstmt = conn.prepareStatement(sql.toString());
             rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 DeptDto deptDto = new DeptDto();
                 deptDto.setDept_name(rs.getString("dept_name"));
                 deptDto.setDept_num(rs.getString("dept_num"));
@@ -152,7 +153,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
             pstmt.setString(++idx, emp_num);
             pstmt.setString(++idx, type + "");
             rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 ApprovalDto approvalDto = new ApprovalDto();
                 approvalDto.setDoc_num(rs.getString("doc_num"));
                 approvalDto.setEmp_num(rs.getString("emp_num"));
@@ -264,5 +265,61 @@ public class ApprovalDaoImpl implements ApprovalDao {
         }
 
         return confirmDto;
+    }
+
+    @Override
+    public void confirm(String doc_num, String type) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("update document_info \n");
+            if ("1".equals(type)) {
+                sql.append("set confirm_line_1_ok = '1' \n");
+            }
+            else if ("2".equals(type)) {
+                sql.append("set confirm_line_2_ok = '1' \n");
+            }
+            else if ("3".equals(type)) {
+                sql.append("set confirm_line_3_ok = '1' \n");
+            }
+            sql.append("where doc_num = ?");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, doc_num);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt);
+        }
+    }
+
+    @Override
+    public void cancel(String doc_num, String type) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("update document_info \n");
+            if ("1".equals(type)) {
+                sql.append("set confirm_line_1_ok = '0' \n");
+            }
+            else if ("2".equals(type)) {
+                sql.append("set confirm_line_2_ok = '0' \n");
+            }
+            else if ("3".equals(type)) {
+                sql.append("set confirm_line_3_ok = '0' \n");
+            }
+            sql.append("where doc_num = ?");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, doc_num);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt);
+        }
     }
 }

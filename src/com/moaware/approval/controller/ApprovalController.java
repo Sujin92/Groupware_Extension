@@ -15,7 +15,7 @@ import java.io.IOException;
  * Created by gwasan on 2017. 6. 20..
  */
 @WebServlet("/appcontrol")
-public class ApprovalController extends HttpServlet{
+public class ApprovalController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String act = request.getParameter("act");
@@ -31,12 +31,20 @@ public class ApprovalController extends HttpServlet{
         } else if ("outstanding".equals(act)) {
             path = ApprovalFactory.getApprovalOutstandingAction().execute(request, response);
             PageMove.forward(path, request, response);
+        } else if ("complete".equals(act)) {
+            path = ApprovalFactory.getApprovalCompelteAction().execute(request, response);
+            PageMove.forward(path, request, response);
         } else if ("view".equals(act)) {
             path = ApprovalFactory.getApprovalViewAction().execute(request, response);
             PageMove.forward(path, request, response);
         } else if ("confirm".equals(act)) {
-            path = ApprovalFactory.getApprovalViewAction().execute(request, response);
-            PageMove.forward(path, request, response);
+            String doc_num = request.getParameter("doc_num");
+            String type = request.getParameter("type");
+            ApprovalServiceImpl.getApprovalServiceImpl().confirm(doc_num, type);
+        } else if ("cancel".equals(act)) {
+            String doc_num = request.getParameter("doc_num");
+            String type = request.getParameter("type");
+            ApprovalServiceImpl.getApprovalServiceImpl().cancel(doc_num, type);
         }
     }
 

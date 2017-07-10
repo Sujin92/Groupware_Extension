@@ -5,6 +5,10 @@
 <%@ include file="/common/member_header.jsp" %>
 <%
     List<ApprovalDto> list = (List<ApprovalDto>) request.getAttribute("list");
+    String com = (String) request.getAttribute("com");
+    int type = 0;
+    if ("com".equals(com))
+        type = 1;
 %>
 <script>
     function viewPaper(num) {

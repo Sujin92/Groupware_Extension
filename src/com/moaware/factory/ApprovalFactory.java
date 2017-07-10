@@ -1,10 +1,7 @@
 package com.moaware.factory;
 
 import com.moaware.action.Action;
-import com.moaware.approval.action.ApprovalGetAction;
-import com.moaware.approval.action.ApprovalViewAction;
-import com.moaware.approval.action.ApprovalWriteAction;
-import com.moaware.approval.action.ApprovalOutstandingAction;
+import com.moaware.approval.action.*;
 
 /**
  * Created by gwasan on 2017. 6. 24..
@@ -14,13 +11,18 @@ public class ApprovalFactory {
     private static Action approvalGetAction;
     private static Action approvalOutstandingAction;
     private static Action approvalViewAction;
+    private static Action approvalCompelteAction;
 
     static {
         approvalWriteAction = new ApprovalWriteAction();
         approvalGetAction = new ApprovalGetAction();
         approvalOutstandingAction = new ApprovalOutstandingAction();
         approvalViewAction = new ApprovalViewAction();
+        approvalCompelteAction = new ApprovalCompleteAction();
+    }
 
+    public static Action getApprovalCompelteAction() {
+        return approvalCompelteAction;
     }
 
     public static Action getApprovalViewAction() {

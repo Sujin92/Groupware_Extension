@@ -7,20 +7,25 @@
     ConfirmDto confirmDto = (ConfirmDto) request.getAttribute("confirmList");
     MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo");
 
-    System.out.println(confirmDto);
-
     if (approvalDto != null && memberDto != null) {
 %>
 <%@ include file="/common/member_header.jsp" %>
+<script type="text/javascript" src="/moa/js/myajax.js"></script>
 <script>
-    var pos;
     function confirm(p) {
-        pos = p;
-        sendRequest("<%=root%>/appcontrol", "act=confirm", approval, "GET");
+        sendRequest("<%=root%>/appcontrol", "act=confirm&doc_num=<%=approvalDto.getDoc_num()%>&type=" + p, "GET");
+        document.getElementById("text" + p).innerHTML = "<p style=\"color: red\">결재완료</p>";
+        document.getElementById("text" + p).style.display = "";
+        document.getElementById("sel" + p).style.display = "none";
+        document.getElementById("ch" + p).style.display = "";
     }
 
-    function approval() {
-
+    function cancel(p) {
+        sendRequest("<%=root%>/appcontrol", "act=cancel&doc_num=<%=approvalDto.getDoc_num()%>&type=" + p, "GET");
+        document.getElementById("text" + p).innerHTML = "";
+        document.getElementById("text" + p).style.display = "none";
+        document.getElementById("sel" + p).style.display = "";
+        document.getElementById("ch" + p).style.display = "none";
     }
 </script>
 <div id="page-wrapper">
@@ -84,10 +89,23 @@
                                 <%
                                     if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_1())) {
                                 %>
-                                <input type="button" value="결재" id="sel1" onclick="confirm(1, );"
-                                       style="display: block">
-                                <input type="button" value="취소" id="ch1" onclick="doModal(1);" style="display: none">
+                                <div id="text1" style="display: none"></div>
                                 <%
+                                    if ("0".equals(approvalDto.getConfirm_line_ok_1())) {
+                                %>
+                                <input type="button" value="결재" id="sel1" onclick="confirm(1);" style="display: block">
+                                <input type="button" value="취소" id="ch1" onclick="cancel(1);" style="display: none">
+                                <%
+                                } else {
+                                %>
+                                <script>
+                                    document.getElementById("text1").innerHTML = "<p style=\"color: red\">결재완료</p>";
+                                    document.getElementById("text1").style.display = "";
+                                </script>
+                                <input type="button" value="결재" id="sel1" onclick="confirm(1);" style="display: none">
+                                <input type="button" value="취소" id="ch1" onclick="cancel(1);" style="display: block">
+                                <%
+                                        }
                                     }
                                 %>
                             </td>
@@ -108,9 +126,23 @@
                                 <%
                                     if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_2())) {
                                 %>
-                                <input type="button" value="결재" id="sel2" onclick="doModal(2);" style="display: block">
-                                <input type="button" value="취소" id="ch2" onclick="doModal(2);" style="display: none">
+                                <div id="text2" style="display: none"></div>
                                 <%
+                                    if ("0".equals(approvalDto.getConfirm_line_ok_2())) {
+                                %>
+                                <input type="button" value="결재" id="sel2" onclick="confirm(2);" style="display: block">
+                                <input type="button" value="취소" id="ch2" onclick="cancel(2);" style="display: none">
+                                <%
+                                } else {
+                                %>
+                                <script>
+                                    document.getElementById("text2").innerHTML = "<p style=\"color: red\">결재완료</p>";
+                                    document.getElementById("text2").style.display = "";
+                                </script>
+                                <input type="button" value="결재" id="sel2" onclick="confirm(2);" style="display: none">
+                                <input type="button" value="취소" id="ch2" onclick="cancel(2);" style="display: block">
+                                <%
+                                        }
                                     }
                                 %>
                             </td>
@@ -131,9 +163,23 @@
                                 <%
                                     if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_3())) {
                                 %>
-                                <input type="button" value="결재" id="sel3" onclick="confirm(3);" style="display: block">
-                                <input type="button" value="취소" id="ch3" onclick="doModal(3);" style="display: none">
+                                <div id="text3" style="display: none"></div>
                                 <%
+                                    if ("0".equals(approvalDto.getConfirm_line_ok_3())) {
+                                %>
+                                <input type="button" value="결재" id="sel3" onclick="confirm(3);" style="display: block">
+                                <input type="button" value="취소" id="ch3" onclick="cancel(3);" style="display: none">
+                                <%
+                                } else {
+                                %>
+                                <script>
+                                    document.getElementById("text3").innerHTML = "<p style=\"color: red\">결재완료</p>";
+                                    document.getElementById("text3").style.display = "";
+                                </script>
+                                <input type="button" value="결재" id="sel3" onclick="confirm(3);" style="display: none">
+                                <input type="button" value="취소" id="ch3" onclick="cancel(3);" style="display: block">
+                                <%
+                                        }
                                     }
                                 %>
                             </td>

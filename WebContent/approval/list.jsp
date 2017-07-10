@@ -7,7 +7,7 @@
         <li>결재할 문서함
             <ol>
                 <li><a href="<%=root%>/appcontrol?act=outstanding">미결재 문서</a></li>
-                <li><a href="<%=root%>/approval/confirm.jsp">결재완료 문서</a></li>
+                <li><a href="<%=root%>/appcontrol?act=complete">결재완료 문서</a></li>
             </ol>
         </li>
         <li>개인문서함
