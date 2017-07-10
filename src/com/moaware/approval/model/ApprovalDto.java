@@ -14,12 +14,21 @@ public class ApprovalDto {
     String doc_content;
     String draft_date;
     String receive_dept;
+    String dept_name;
     String confirm_line_1;
     String confirm_line_2;
     String confirm_line_3;
     String confirm_line_ok_1;
     String confirm_line_ok_2;
     String confirm_line_ok_3;
+
+    public String getDept_name() {
+        return dept_name;
+    }
+
+    public void setDept_name(String dept_name) {
+        this.dept_name = dept_name;
+    }
 
     public String getEmp_name() {
         return emp_name;

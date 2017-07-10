@@ -1,6 +1,7 @@
 package com.moaware.approval.dao;
 
 import com.moaware.approval.model.ApprovalDto;
+import com.moaware.approval.model.ConfirmDto;
 import com.moaware.approval.model.DeptDto;
 import com.moaware.member.model.MemberDto;
 
@@ -15,4 +16,5 @@ public interface ApprovalDao {
     List<DeptDto> getDept();
     List<ApprovalDto> confirmList(int type, String emp_num);
     ApprovalDto viewPaper(int seq);
+    ConfirmDto getConfirmList(String con1, String con2, String con3);
 }

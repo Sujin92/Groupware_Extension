@@ -1,6 +1,7 @@
 package com.moaware.approval.dao;
 
 import com.moaware.approval.model.ApprovalDto;
+import com.moaware.approval.model.ConfirmDto;
 import com.moaware.approval.model.DeptDto;
 import com.moaware.member.model.MemberDto;
 import com.moaware.util.db.DBClose;
@@ -188,9 +189,10 @@ public class ApprovalDaoImpl implements ApprovalDao {
         try {
             conn = DBConnection.getConnection();
             StringBuffer sql = new StringBuffer();
-            sql.append("select d.doc_num, m.emp_num, m.name, d.doc_type_num, d.doc_name, d.doc_state, d.doc_content, d.doc_subject, d.draft_date, d.receive_dept, d.confirm_line_1, d.confirm_line_2, d.confirm_line_3, d.confirm_line_1_ok, d.confirm_line_2_ok, d.confirm_line_3_ok \n");
-            sql.append("from document_info d, member_info m \n");
-            sql.append("where d.emp_num = m.emp_num and doc_num = ?");
+            sql.append("select d.doc_num, m.emp_num, m.name, d.doc_type_num, d.doc_name, d.doc_state, d.doc_content, d.doc_subject, d.draft_date, d.receive_dept, d.confirm_line_1, d.confirm_line_2, d.confirm_line_3, d.confirm_line_1_ok, d.confirm_line_2_ok, d.confirm_line_3_ok, de.dept_name \n");
+            sql.append("from document_info d, member_info m, dept_info de \n");
+            sql.append("where d.emp_num = m.emp_num and de.dept_num = m.dept_num and doc_num = ?");
+            sql.append("order by d.doc_num");
             pstmt = conn.prepareStatement(sql.toString());
             pstmt.setInt(1, seq);
             rs = pstmt.executeQuery();
@@ -205,6 +207,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
                 approvalDto.setDoc_content(rs.getString("doc_content"));
                 approvalDto.setDraft_date(rs.getString("draft_date"));
                 approvalDto.setReceive_dept(rs.getString("receive_dept"));
+                approvalDto.setDept_name(rs.getString("dept_name"));
                 approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
                 approvalDto.setConfirm_line_2(rs.getString("confirm_line_2"));
                 approvalDto.setConfirm_line_3(rs.getString("confirm_line_3"));
@@ -219,5 +222,47 @@ public class ApprovalDaoImpl implements ApprovalDao {
         }
 
         return approvalDto;
+    }
+
+    @Override
+    public ConfirmDto getConfirmList(String con1, String con2, String con3) {
+        ConfirmDto confirmDto = new ConfirmDto();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select p.position_name, name \n");
+            sql.append("from member_info m, position_info p \n");
+            sql.append("where m.position_num = p.position_num and emp_num = ? ");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, con1);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                confirmDto.setConfirm1_name(rs.getString("name"));
+                confirmDto.setConfirm1_position(rs.getString("position_name"));
+            }
+
+            pstmt.setString(1, con2);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                confirmDto.setConfirm2_name(rs.getString("name"));
+                confirmDto.setConfirm2_position(rs.getString("position_name"));
+            }
+
+            pstmt.setString(1, con3);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                confirmDto.setConfirm3_name(rs.getString("name"));
+                confirmDto.setConfirm3_position(rs.getString("position_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+
+        return confirmDto;
     }
 }

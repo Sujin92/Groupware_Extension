@@ -50,7 +50,7 @@
         modal = document.getElementById("myModal");
         span = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
-        sendRequest("/moa/appcontrol", "act=getmember", displayModal, "GET");
+        sendRequest("<%=root%>/appcontrol", "act=getmember", displayModal, "GET");
     }
 
     function displayModal() {
@@ -124,7 +124,7 @@
         modal2 = document.getElementById("myModalDept");
         span2 = document.getElementsByClassName("close")[0];
         modal2.style.display = "block";
-        sendRequest("/moa/appcontrol", "act=getdept", displayModalDept, "GET");
+        sendRequest("<%=root%>/appcontrol", "act=getdept", displayModalDept, "GET");
     }
 
     function displayModalDept() {
@@ -158,7 +158,12 @@
     }
 
     $(document).ready(function () {
-        $('#content').summernote();
+        $('#content').summernote({
+            height: 700,
+            minHeight: null,
+            maxHeight: null,
+            focus: true
+        });
     });
 
 </script>

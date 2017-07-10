@@ -34,6 +34,9 @@ public class ApprovalController extends HttpServlet{
         } else if ("view".equals(act)) {
             path = ApprovalFactory.getApprovalViewAction().execute(request, response);
             PageMove.forward(path, request, response);
+        } else if ("confirm".equals(act)) {
+            path = ApprovalFactory.getApprovalViewAction().execute(request, response);
+            PageMove.forward(path, request, response);
         }
     }
 

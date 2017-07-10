@@ -1,11 +1,28 @@
 <%@ page import="com.moaware.approval.model.ApprovalDto" %>
+<%@ page import="com.moaware.approval.model.ConfirmDto" %>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR" %>
 <%
     ApprovalDto approvalDto = (ApprovalDto) request.getAttribute("view");
+    ConfirmDto confirmDto = (ConfirmDto) request.getAttribute("confirmList");
+    MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo");
 
+    System.out.println(confirmDto);
+
+    if (approvalDto != null && memberDto != null) {
 %>
 <%@ include file="/common/member_header.jsp" %>
+<script>
+    var pos;
+    function confirm(p) {
+        pos = p;
+        sendRequest("<%=root%>/appcontrol", "act=confirm", approval, "GET");
+    }
+
+    function approval() {
+
+    }
+</script>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -51,20 +68,74 @@
                             <td><%=approvalDto.getDoc_num()%>
                             <th rowspan="2">결재</th>
                             <td id="confirm" rowspan="2">
-                                <div id="confirm1"></div>
-                                <input type="button" value="선택" id="sel1" onclick="doModal(1);" style="display: block">
-                                <input type="button" value="변경" id="ch1" onclick="doModal(1);" style="display: none">
-
+                                <div id="confirm1">
+                                    <%
+                                        if (confirmDto.getConfirm1_name() != null) {
+                                    %>
+                                    <%=confirmDto.getConfirm1_position()%><%=confirmDto.getConfirm1_name()%>
+                                    <%
+                                    } else {
+                                    %>
+                                    없음
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <%
+                                    if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_1())) {
+                                %>
+                                <input type="button" value="결재" id="sel1" onclick="confirm(1, );"
+                                       style="display: block">
+                                <input type="button" value="취소" id="ch1" onclick="doModal(1);" style="display: none">
+                                <%
+                                    }
+                                %>
                             </td>
                             <td rowspan="2">
-                                <div id="confirm2"></div>
-                                <input type="button" value="선택" id="sel2" onclick="doModal(2);" style="display: block">
-                                <input type="button" value="변경" id="ch2" onclick="doModal(2);" style="display: none">
+                                <div id="confirm2">
+                                    <%
+                                        if (confirmDto.getConfirm2_name() != null) {
+                                    %>
+                                    <%=confirmDto.getConfirm2_position()%><%=confirmDto.getConfirm2_name()%>
+                                    <%
+                                    } else {
+                                    %>
+                                    없음
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <%
+                                    if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_2())) {
+                                %>
+                                <input type="button" value="결재" id="sel2" onclick="doModal(2);" style="display: block">
+                                <input type="button" value="취소" id="ch2" onclick="doModal(2);" style="display: none">
+                                <%
+                                    }
+                                %>
                             </td>
                             <td rowspan="2">
-                                <div id="confirm3"></div>
-                                <input type="button" value="선택" id="sel3" onclick="doModal(3);" style="display: block">
-                                <input type="button" value="변경" id="ch3" onclick="doModal(3);" style="display: none">
+                                <div id="confirm3">
+                                    <%
+                                        if (confirmDto.getConfirm3_name() != null) {
+                                    %>
+                                    <%=confirmDto.getConfirm3_position()%><%=confirmDto.getConfirm3_name()%>
+                                    <%
+                                    } else {
+                                    %>
+                                    없음
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <%
+                                    if (memberDto.getEmp_num().equals(approvalDto.getConfirm_line_3())) {
+                                %>
+                                <input type="button" value="결재" id="sel3" onclick="confirm(3);" style="display: block">
+                                <input type="button" value="취소" id="ch3" onclick="doModal(3);" style="display: none">
+                                <%
+                                    }
+                                %>
                             </td>
                         </tr>
                         <tr>
@@ -75,15 +146,14 @@
                         <tr>
                             <th>기안일</th>
                             <td>
-                                <input type="text" id="year" name="year">년
-                                <input type="text" id="month" name="month">월
-                                <input type="text" id="day" name="day">일
+                                <%=approvalDto.getDraft_date()%>
                             </td>
                             <th>수신부서</th>
                             <td colspan="3">
-                                <input type="text" id="receiveDept" name="receiveDept">
-                                <input type="button" name="selectDept" id="selectDept" onclick="doModalDept();"
-                                       value="수신부서지정">
+                                <%=approvalDto.getReceive_dept()%>
+                                <%--<input type="text" id="receiveDept" name="receiveDept">--%>
+                                <%--<input type="button" name="selectDept" id="selectDept" onclick="doModalDept();"--%>
+                                <%--value="수신부서지정">--%>
                                 <%--<input type="button" name="viewDept" id="viewDept" value="수신부서보기">--%>
                             </td>
                         </tr>
@@ -92,20 +162,19 @@
                             <td>사원 <%=approvalDto.getEmp_name()%>
                             </td>
                             <th>부서</th>
-                            <td colspan="3">아직 안함
+                            <td colspan="3"><%=approvalDto.getDept_name()%>
                             </td>
                         </tr>
                         <tr>
                             <th>제목</th>
                             <td colspan="5">
-                                <input type="text" size="100%" id="subject" name="subject">
+                                <%=approvalDto.getDoc_subject()%>
                             </td>
                         </tr>
                         <%-- Naver SmartEditor --%>
                         <tr>
                             <td colspan="6">
-                            <textarea name="content" id="content" cols="" rows="30" style="width: 100%;">
-                            </textarea>
+                                <%=approvalDto.getDoc_content()%>
                             </td>
                         </tr>
                         <tr>
@@ -130,3 +199,12 @@
 
 </body>
 </html>
+<%
+} else {
+%>
+<script>
+    alert("!!");
+</script>
+<%
+    }
+%>

@@ -1,7 +1,9 @@
 package com.moaware.approval.action;
 
 import com.moaware.action.Action;
+import com.moaware.approval.dao.ApprovalDaoImpl;
 import com.moaware.approval.model.ApprovalDto;
+import com.moaware.approval.model.ConfirmDto;
 import com.moaware.approval.service.ApprovalServiceImpl;
 
 import javax.servlet.ServletException;
@@ -19,6 +21,8 @@ public class ApprovalViewAction implements Action {
         if (seq != 0) {
             ApprovalDto approvalDto = ApprovalServiceImpl.getApprovalServiceImpl().viewPaper(seq);
             request.setAttribute("view", approvalDto);
+            ConfirmDto confirmDto = ApprovalDaoImpl.getApprovalDaoImpl().getConfirmList(approvalDto.getConfirm_line_1(), approvalDto.getConfirm_line_2(), approvalDto.getConfirm_line_3());
+            request.setAttribute("confirmList", confirmDto);
         }
         return "/approval/view.jsp";
     }
