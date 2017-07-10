@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" import="com.moaware.member.model.MemberDto"%>
-<%@ include file="/common/member_header.jsp" %>
 <% 
+String root1 = request.getContextPath();
 	MemberDto memberDto = (MemberDto)session.getAttribute("loginInfo"); 
-	if(memberDto!=null){
+	if(memberDto.getId()=="admin"){%>
+<%@ include file="/common/admin_header.jsp" %>
+<%}else{
 %>
+<%@ include file="/common/member_header.jsp" %>
+<%}if(memberDto!=null){ %>
+	
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12"> 
@@ -23,9 +28,11 @@
 	<!-- /#wrapper -->
 </body>
 </html>
-<%}else{
+<%
+}else{
 %><script>
 alert("부적절한 URL 접근입니다.");
-document.location.href="<%=root%>";
+document.location.href="<%=root1%>";
 <%
-}%>
+}
+%>

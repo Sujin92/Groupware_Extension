@@ -16,6 +16,7 @@ function logincheck(){
 		return;	
 	} else if(document.getElementById("pass").value == "") {
 		alert("비밀번호 입력!"); 
+		
 	return;
 	} else {
 		document.loginform.action = "<%=root%>/login";
