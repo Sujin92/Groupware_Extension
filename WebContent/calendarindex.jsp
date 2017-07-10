@@ -76,6 +76,7 @@ var eventData;
 			}
 			  
 		});
+		
 	/*$(document).on('click', '.fc-day-grid-event', function() {
 		console.log(13);
 		

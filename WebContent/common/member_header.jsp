@@ -5,7 +5,6 @@
 <%
 String root = request.getContextPath();
 MemberDto member = (MemberDto) session.getAttribute("loginInfo"); 
-
 %>
 <html>
 <head>
@@ -318,7 +317,7 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 					</li>
 					
 					<li>
-						<a href="<%=root%>/commute/calendartest.jsp" style="color: #46B692">
+						<a href="<%=root%>/commute?act=list" style="color: #46B692">
 							<i class="fa fa-files-o fa-fw" style="color: #46B692"></i> ¸Þ½ÅÀú
 						</a>
 					</li>
