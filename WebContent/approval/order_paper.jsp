@@ -134,9 +134,12 @@
                 var txt = JSON.parse(tmp);
                 var i;
                 var x = "";
+                x+= "<select id=\"selDept\">";
                 for (i in txt.info) {
-                    x += "<input type='checkbox' name='dept'>" + txt.info[i].dept_name + "&nbsp;";
+//                    x += "<input type='checkbox' name='dept'>" + txt.info[i].dept_name + "&nbsp;";
+                    x += "<option value=\"" + txt.info[i].dept_name + "\">" + txt.info[i].dept_name + "</option>";
                 }
+                x += "</select>";
                 document.getElementById("getdept").innerHTML = x;
             } else {
                 alert("문제발생 : " + httpRequest.status);
@@ -145,16 +148,8 @@
     }
 
     function getDept() {
-        var p = position;
-//        var txt = JSON.parse(m);
-        var confirm = "confirm" + p;
-        var sel = "sel" + p;
-        var ch = "ch" + p;
-        document.getElementById("confirm_line" + p).value = m.emp_num;
-        document.getElementById(confirm).innerHTML = m.position_num + " " + m.name;
-        document.getElementById(sel).style.display = "none";
-        document.getElementById(ch).style.display = "block";
-        closeModal();
+        document.getElementById("receiveDept").value = document.getElementById("selDept").value;
+        closeModalDept();
     }
 
     $(document).ready(function () {
