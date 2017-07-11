@@ -23,7 +23,7 @@ public class ApprovalCompleteAction implements Action {
         List<ApprovalDto> list = ApprovalServiceImpl.getApprovalServiceImpl().confirmList(1, memberDto.getEmp_num());
         request.setAttribute("list", list);
         request.setAttribute("com", "com");
-
+        System.out.println("TEST");
         return "/approval/confirm.jsp";
     }
 }
