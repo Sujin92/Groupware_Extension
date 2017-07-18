@@ -1,4 +1,3 @@
-
 <%@page import="com.moaware.commute.model.CommuteDto"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Date"%>
@@ -116,7 +115,7 @@ window.onload=function() {
 			               	 title : ' 퇴근 ',
 			                 start : '<%=commuteDto.getCommute_date()%>',
 			                 content : '<%=commuteDto.getCommute_date()%>',
-			                 color : "#b0e0e6"    
+			                 color : "#FF6347"    
 			                 
 			            },	
 			          <%} else {%>
@@ -124,7 +123,7 @@ window.onload=function() {
 		               	 title : ' 지각 ',
 		                 start : '<%=commuteDto.getCommute_date()%>',
 		                 content : '<%=commuteDto.getCommute_date()%>',
-		                 color : "#FF6347"    
+		                 color : "#b0e0e6"   
 		                 
 		            },
 		<%}
@@ -134,7 +133,7 @@ window.onload=function() {
 						 title : ' 퇴근 ',
 		                 start : '<%=commuteDto.getCommute_date()%>',
 		                 content : '<%=commuteDto.getCommute_date()%>',
-		                 color : "#b0e0e6" 
+		                 color : "#FF6347" 
 			                 
 			            },
 			            <%} else {%>
