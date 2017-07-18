@@ -18,6 +18,8 @@
 <link href='<%=root1%>/css/fullcalendar.css' rel='stylesheet' />
 <link href='<%=root1%>/css/fullcalendar.print.css' rel='stylesheet'
 	media='print' />
+		<!-- Project CSS -->
+	<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <script src='<%=root1%>/js/lib/moment.min.js' charset="UTF-8"></script>
 <script src='<%=root1%>/js/lib/jquery.min.js' charset="UTF-8"></script>
 <script src='<%=root1%>/js/lib/jquery-ui.min.js' charset="UTF-8"></script>
@@ -50,7 +52,7 @@ function getXMLHttpRequest() {
 function getTime() {
 	httpRequest = getXMLHttpRequest();
 	httpRequest.onreadystatechange = starttime;
-	httpRequest.open("POST", "<%= root1 %>/commute/time.jsp", true); // get, url, 동기화할건지 비동기화 할건지 비동기화하면 true
+	httpRequest.open("POST", "<%=root1%>/commute/time.jsp", true); // get, url, 동기화할건지 비동기화 할건지 비동기화하면 true
 	httpRequest.send(null); // 인자값으로 파라미터 가져갈 수 있음
 } // callback함수 이름, get/post, url만 바꾸면 됨 
 
@@ -82,7 +84,7 @@ window.onload=function() {
 			},
 			defaultDate : new Date().getTime(),
 			navLinks : true, // can click day/week names to navigate views
-			selectable : false,
+			selectable : true,
 			selectHelper : true,
 			select : function(start, end) {
 
@@ -97,62 +99,56 @@ window.onload=function() {
 					};
 					$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
 				}
-			$('#calendar').fullCalendar('unselect');	
+			$('#calendar').fullCalendar('unselect');
 			},
 			editable : true,
 			eventLimit : true,
-			
-			 eventClick : function(event) {
-		               $("#fullCalModal2").modal("show");
-		               //  $("#fullCalModal #modalTitle").text(event.title);
-		              //  $("#fullCalModal #modalBody").text(event.content);
-		             //  $("#fullCalModal #startDate").text(event.start);
-		            //  $("#fullCalModal #endDate").text(event.end);
-		           //
-		          //  $("#delete").on('click', function() {
-		         // $('#calendar').fullCalendar('removeEvents',event._id);
-		        // $("#fullCalModal").modal('hide');
-		       //});     
-			},
 
 			events: [
-		<%
-			int size = list.size();
-		
+		<%int size = list.size();
+
 			if (size != 0) {
 				for (int i = 0; i < size; i++) {
 					CommuteDto commuteDto = list.get(i);
-					 if( Integer.parseInt(commuteDto.getCommute_division())==0){ 
-					 	if(commuteDto.getCheck_out()!=null){%>
+					if (Integer.parseInt(commuteDto.getCommute_division()) == 0) {
+						if (commuteDto.getCheck_out() != null) {%>
 			            {
 			               	 title : ' 퇴근 ',
-			                 start : '<%= commuteDto.getCommute_date() %>',
-			                 content : '<%= commuteDto.getCommute_date() %>',
+			                 start : '<%=commuteDto.getCommute_date()%>',
+			                 content : '<%=commuteDto.getCommute_date()%>',
 			                 color : "#b0e0e6"    
 			                 
 			            },	
-			          <%}else{ %>
+			          <%} else {%>
 		            {
 		               	 title : ' 지각 ',
-		                 start : '<%= commuteDto.getCommute_date() %>',
-		                 content : '<%= commuteDto.getCommute_date() %>',
+		                 start : '<%=commuteDto.getCommute_date()%>',
+		                 content : '<%=commuteDto.getCommute_date()%>',
 		                 color : "#FF6347"    
 		                 
 		            },
-		<%
-					}}
-					 else if( Integer.parseInt(commuteDto.getCommute_division())==1){ %>
+		<%}
+					} else if (Integer.parseInt(commuteDto.getCommute_division()) == 1) {
+						if (commuteDto.getCheck_out() != null) {%>
 					 {
-			               	title : ' 출근 ',
-			                 start : '<%= commuteDto.getCommute_date() %>',
-			                 content : '<%= commuteDto.getCommute_date() %>',
-			                 color : "#06db78"
+						 title : ' 퇴근 ',
+		                 start : '<%=commuteDto.getCommute_date()%>',
+		                 content : '<%=commuteDto.getCommute_date()%>',
+		                 color : "#b0e0e6" 
 			                 
 			            },
-					 
-				<%}			
-				
-				}}%>            
+			            <%} else {%>
+			            {
+			            	title : ' 출근 ',
+			                 start : '<%=commuteDto.getCommute_date()%>',
+			                 content : '<%=commuteDto.getCommute_date()%>',
+			                 color : "#06db78"    
+			                 
+			            },
+				<%}
+					}
+				}
+			}%>            
 		         ]
 		});
 
@@ -162,7 +158,7 @@ window.onload=function() {
 		
 		var d = new Date();
 		var year = d.getFullYear();
-		var month = (d.getMonth() + 1);
+		var month = ('0'+(d.getMonth()+1)).slice(-2);
 		var day = d.getDate();
 		var hour = d.getHours();
 		var min =  d.getMinutes();
@@ -179,7 +175,7 @@ window.onload=function() {
 		
 		var d = new Date();
 		var year = d.getFullYear();
-		var month = (d.getMonth() + 1);
+		var month = ('0'+(d.getMonth()+1)).slice(-2);
 		var day = d.getDate();
 		var hour = d.getHours();
 		var min =  d.getMinutes();
@@ -195,7 +191,6 @@ window.onload=function() {
 </script>
 <style>
 body {
-	margin: 40px 10px;
 	padding: 0;
 	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
 	font-size: 14px;
@@ -206,69 +201,61 @@ body {
 	margin: 0 auto;
 }
 </style>
-
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
+			<header class="headers">
+				<h3> 근태관리 </h3>
+			</header class="headers">
 
 			<div>
-				<br>
-				<table class="table table-bordered">
-					<tr>
-						<td><div id="ctime"></div></td>
+				<table class="table table-striped">
+					<tr >
+						<td colspan="2"><div id = "ctime"></div></td>
 					</tr>
 					<tr>
 						<td>
 							<button id="workbtn" type="button" class="btn btn-info"
 								onclick="javascript:goto_work();">출근</button> 
 								<input type="text" id="gotowork_input" placeholder="what time -"
-							size="50"> &nbsp;&nbsp;&nbsp;&nbsp; why absence : <select>
-								<option>project1</option>
-								<option>project2</option>
-								<option>project3</option>
-						</select>
-							<button type="button" class="btn btn-success"
-								onclick="">submit</button>
-						</td>
-					</tr>
-					<tr>
-						<td>
+							size="30">
 							<button id="leavebtn" type="button" class="btn btn-info"
-								onclick="javascript:leave_work();">퇴근</button> <input
-							type="text" id="leave_input" placeholder="what time -" size="50">
+								onclick="javascript:leave_work();">퇴근</button> 
+								<input type="text" id="leave_input" placeholder="what time -" size="30">
 						</td>
 					</tr>
 				</table>
-				<div></div>
+
 				<br>
 			</div>
 
 			<br>
 
 
-	<div id='calendar'></div>
-	
-			
-<!-- Modal -->
-  <div class="modal fade" id="fullCalModal2" role="dialog">
-    <div class="modal-dialog">
-    
-<!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+			<div id='calendar'></div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="fullCalModal2" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h4 class="modal-title">Modal Header</h4>
+						</div>
+						<div class="modal-body">
+							<p>Some text in the modal.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
 
 
 		</div>

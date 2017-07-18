@@ -9,14 +9,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<title>Login</title>
 <link href="<%=root %>/dist/css/index.css" rel="stylesheet">
-<script type="text/javascript">
+<script type="text/javascript">	
 function logincheck(){
 	if(document.getElementById("id").value  == "") {
 		alert("아이디 입력!");
 		return;	
 	} else if(document.getElementById("pass").value == "") {
 		alert("비밀번호 입력!"); 
-		
 	return;
 	} else {
 		document.loginform.action = "<%=root%>/login";
@@ -25,6 +24,7 @@ function logincheck(){
 }
 </script>
 </head>
+
 <body>
 </head>
 <body>

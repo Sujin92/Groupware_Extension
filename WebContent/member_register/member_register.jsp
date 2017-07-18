@@ -5,7 +5,35 @@
 MemberDto memberDto = (MemberDto)session.getAttribute("loginInfo"); 
 if(memberDto != null) {
 %>
+<style>
+html{
+   width: 100%;
+   height: 100%;
+}
+.container {
+   width: 100%;
+   height: 100%;
+}
+.outer {
+   display: table;
+   width: 100%;
+   height: 100%;
+}
+.inner {
+   display: table-cell;
+   vertical-align: middle;
+}
+.centered {
+   position: relative;
+   display: inline-block;
+   width: 60%;
+   padding: 1em;
+}
+</style>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <script>
 function openzip() {
     new daum.Postcode({
@@ -143,23 +171,21 @@ function openposition(){
 }
 </script>
 <div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12" align="center">
-			<header>
-				<h2 align="left">사원등록</h2>
-			</header>
+			<header class="headers">
+				<h3> 사원등록 </h3>
+			</header class="headers">
+			<br>
+	<div class="container">
+		<div class="outer" style="height: auto; min-height: 100px; overflow: auto;" align="center">
+			<div class="inner">
+				<div class="centered">
 		<form id="joinform" name="joinform" method="post" action="">
 			<input type="hidden" name="act" value="register">
-		<table width="900" height="700" cellspacing="4" cellpadding="5">
-<!--	<tr>
-			<td >사원번호</td>
-			<td ><input type="text" name="emp_num" id="emp_num" value="" size="12"></td>
-		</tr>
--->
+		<table class="table table-bordered">
 			<tr>
 				<td >부서이름<font color="red">*</font></td>
 				<td>
-					<input type="text" name="dept_name" id="dept_name" value="" size="12" readonly="readonly">
+					<input type="text" name="dept_name" id="dept_name" readonly="readonly">
 					<input type="button" value="부서검색" onclick="javascript:opendept();">
 				</td>
 			</tr>
@@ -167,7 +193,7 @@ function openposition(){
 			<tr>
 				<td >직급이름<font color="red">*</font></td>
 				<td >
-					<input type="text" name="position_name" id="position_name" value="" size="12" readonly="readonly">
+					<input type="text" name="position_name" id="position_name" readonly="readonly">
 					<input type="button" value="직급검색" onclick="javascript:openposition();">
 				</td>
 			</tr>
@@ -175,7 +201,7 @@ function openposition(){
 			<tr>
 				<td >아이디(ID)<font color="red">*</font></td>
 				<td >
-					<input type="text" name="id" id="id" value="" size="12" onkeyup="javascript:idcheck();">
+					<input type="text" name="id" id="id" onkeyup="javascript:idcheck();">
 				<div id="idresult"></div>
 				</td>
 			</tr>
@@ -183,28 +209,28 @@ function openposition(){
 			<tr>
 				<td >비밀번호입력<font color="red">*</font></td>
 				<td >
-					<input type="password" name="pass" id="pass" size="12" maxlength="12">
+					<input type="password" name="pass" id="pass" maxlength="12">
 					&nbsp;&nbsp;<font color="#3cb371">6~12</font>자리의 영문(대소문자 구별)이나 숫자</td>
 			</tr>
 
 			<tr>
 				<td >비밀번호확인<font color="red">*</font></td>
 				<td >
-					<input type="password" name="passcheck" id="passcheck" size="12" maxlength="12">
+					<input type="password" name="passcheck" id="passcheck" maxlength="12">
 					&nbsp;&nbsp;비밀번호를 한번 더 입력하세요</td>
 			</tr>
 			
 			<tr>
 				<td >이름<font color="red">*</font></td>
 				<td >
-					<input type="text" name="name" id="name" value="" size="12"></td>
+					<input type="text" name="name" id="name" ></td>
 			</tr>
 
 			<tr>
-				<td >성별</td>
+				<td >성별<font color="red">*</font></td>
 				<td >
-					<input type="radio" name="gender" value="남" checked="checked">남자 
-					&nbsp; <input type="radio" name="gender" value="여">여자</td>
+					<input type="radio" name="gender" value="남자" checked="checked">남자 
+					&nbsp; <input type="radio" name="gender" value="여자">여자</td>
 			</tr>
 			
 			<tr>
@@ -215,17 +241,17 @@ function openposition(){
 			</tr>
 			
 			<tr>
-				<td >주소<font color="red">*</font></td>
+				<td >주소</td>
 				<td ><input type="text" name="addr1" id="addr1" value="" size="50" readonly="readonly"></td>
 			</tr>
 
 			<tr>
-				<td >상세주소<font color="red">*</font></td>
+				<td >상세주소</td>
 				<td ><input type="text" name="addr2" id="addr2" size="50"></td>
 			</tr>
 
 			<tr>
-				<td >주로 쓰는 이메일</td>
+				<td >주로 쓰는 이메일<font color="red">*</font></td>
 				<td >
 					<input type="text" name="email1" value="" size="12"> @ 
 					<!--<input type="text" name="direct" value="" size=12>-->
@@ -381,8 +407,8 @@ function openposition(){
 -->
 			<tr>
 				<td colspan="2" align="center">
-					<input type="button" value="등록" onclick="javascript:join();">
-					&nbsp;&nbsp; <input type="reset" value="취소">
+					<input type="button" class="btn btn-default" value="등록" onclick="javascript:join();">
+					&nbsp;&nbsp; <input type="reset" class="btn btn-default" value="취소">
 				</td>
 			</tr>
 		</table>

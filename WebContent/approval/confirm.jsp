@@ -23,6 +23,9 @@
         document.appForm.submit();
     }
 </script>
+
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <form name="appForm" method="post" action="">
     <input type="hidden" name="act" value="">
     <input type="hidden" name="bcode" value="">
@@ -34,7 +37,10 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">전자결재문서</h1>
+           			<header class="headers">
+				<h3> 전자결재 </h3>
+			</header class="headers">
+			<br>
             <%--<div id="payment-list" style="position: relative; float: left;">--%>
             <%@include file="list.jsp" %>
 

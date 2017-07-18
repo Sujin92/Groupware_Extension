@@ -7,7 +7,6 @@
 	position: relative;
 	width: 740px; 
 	height: 800px;
-	float: right;
 	font-size: 18px;
 	vertical-align: middle;
 	

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR" import="com.moaware.member.model.MemberDto"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -236,12 +235,14 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 		<div class="navbar-default sidebar" role="navigation">
 			<div id="sidebar-search">
 			<p style="color: white">	</p>
-				<p style="color: white">-----------------------------------------------------</p>
-				<p id="title" style="color: white"> @ Name : <%=member.getName() %></p>
-				<p style="color: white"> @ ID : <%=member.getId() %></p>
+				<br>
+				<p style="color: white; padding-left:8px"></p>
+				<p id="title" style="color: white; padding-left:10px">  Name : <%=member.getName() %></p>
+				<p style="color: white; padding-left:10px">  ID : <%=member.getId() %> </p>
 				<p style="color: white"> - Login 되었습니다. 행복한 하루 되세요.	</p>
-				<p style="color: white">-----------------------------------------------------</p>
-				<p style="color: white">	</p>
+				<p style="color: white"></p>
+				<p style="color: white"></p>
+				<br>
 			</div>
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
@@ -272,7 +273,7 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 						</a>
 						<ul class="nav nav-second-level">
 							<li><a href="<%=root %>/ScheduleController?act=mydate" style="color: #46B692">일정관리</a></li>
-							<li><a href="dalselection.jsp" style="color: #46B692">근태관리</a></li>
+							<li><a href="<%=root%>/commute?act=list" style="color: #46B692">근태관리</a></li>
 						</ul> <!-- /.nav-second-level -->
 					</li>
 					
@@ -288,7 +289,7 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 					</li>
 					
 					<li>
-						<a href="<%=root%>/appcontrol?act=approval" style="color: #46B692">
+						<a href= "<%=root%>/appcontrol?act=approval"style="color: #46B692">
 							<i class="fa fa-edit fa-fw" style="color: #46B692"></i> 전자결재
 						</a>
 					</li>
@@ -314,12 +315,6 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 						<ul class="nav nav-second-level">
 							<li><a href="<%=root%>/project?act=cardList" style="color: #46B692">Todo</a></li>
 						</ul> <!-- /.nav-second-level -->
-					</li>
-					
-					<li>
-						<a href="<%=root%>/commute?act=list" style="color: #46B692">
-							<i class="fa fa-files-o fa-fw" style="color: #46B692"></i> 메신저
-						</a>
 					</li>
 				</ul>
 			</div>

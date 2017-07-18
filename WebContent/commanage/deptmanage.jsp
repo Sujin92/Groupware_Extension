@@ -4,6 +4,7 @@
 	root = request.getContextPath();
 	List<DeptDto> list = (List<DeptDto>) request.getAttribute("deptList");
 	if (list != null) {
+		DeptDto getDeptDto = (DeptDto) request.getAttribute("getDeptDto");
 %>
 <script>
 function deptRegister() {
@@ -11,17 +12,30 @@ function deptRegister() {
 		alert("부서이름 입력!");
 		return;
 	}  else {
-		document.getElementById("act1").value = "deptRegister";
-		//alert(document.getElementById("act").value);
-		document.registerform.submit();
+		document.getElementById("act2").value = "deptRegister";
 		document.deptform.action = "<%=root%>/comInfo";
 		document.deptform.submit();
 	}
 }
 
+function getDeptInfo(deptNum, deptName) {
+	document.getElementById("dept_num").value = deptNum;
+	document.getElementById("dept_name").value = deptName;
+}
+
+function deptModify() {
+	//document.getElementById("act2").value = "deptModify";
+//	alert(document.getElementById("dept_num").value);
+//	alert(document.getElementById("dept_name").value);
+	//document.deptform.dept_num.value=document.getElementById("dept_num").value;
+	var dept_num = document.getElementById("dept_num").value;
+	var dept_name = document.getElementById("dept_name").value;
+	document.deptform.action = "<%=root%>/comInfo?act=deptModify&dept_num=" + dept_num + "&dept_name=" + dept_name;
+	document.deptform.submit();
+}
+
 function deptDelete() {
-	document.getElementById("act2").value = "deptDelete";
-	document.deleteform.submit();
+	document.getElementById("act1").value = "deptDelete";
 	document.listform.action = "<%=root%>/comInfo";
 	document.listform.submit();
 }
@@ -53,29 +67,20 @@ html{
 }
 </style>
 
-<form name="registerform" method="post" action="">
-	<input type="hidden" name="act" value="register">
-</form>
-
-<form name="modifyform" method="post" action="">
-	<input type="hidden" name="act" value="modify">
-</form>
-
-<form name="deleteform" method="post" action="">
-	<input type="hidden" name="act" value="delete">
-</form>
-</form>
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <div id="page-wrapper">
+			<header class="headers">
+				<h3> 부서관리 </h3>
+			</header class="headers">
+			<br>
 	<div class="container">
-		<div class="outer" style="padding: 10px; height: auto; min-height: 100px; overflow: auto;" align="center">
+		<div class="outer" style="height: auto; min-height: 100px; overflow: auto;" align="center">
 			<div class="inner">
-				<header>
-					<h2 align="left" style="padding: 10px; margin: 10px">부서관리</h2>
-				</header>
 				<div class="centered">
 				<form name="listform" method="post" action="">
-				<input type="hidden" id="act2" name="act" value="">
-				<table cellpadding="5" cellspacing="3" border="1" align="center" style="margin: 20px" class="table table-bordered">
+				<input type="hidden" id="act1" name="act" value="">
+				<table class="table table-bordered">
 
 				<tr class="bg_board_title" align="center">
                 	<td align="center" colspan="1"  nowrap width="50"></td>
@@ -90,7 +95,8 @@ html{
 			%> 
                 <tr align="center">
                 	<td align="center" colspan="1"  nowrap width="50">
-                    <b><input type="radio" id="check" name="check" value="<%=deptDto.getDept_num()%>" onclick="javascript:getDeptInfo();"></b></td>
+                    <input type="radio" id="check" name="check" value="<%=deptDto.getDept_num()%>" 
+                    onclick="javascript:getDeptInfo('<%=deptDto.getDept_num()%>','<%=deptDto.getDept_name()%>');"></td>
                 	<td><%=deptDto.getDept_num() %></td>
                     <td><%=deptDto.getDept_name() %></td>
                 </tr>
@@ -98,8 +104,7 @@ html{
 					if (i < len - 1) {
 				%>
                 <tr align="center">
-					<td class="bg_board_title_02" height="1" colspan="5"
-						style="overflow: hidden; padding: 0px"></td>
+					<td class="bg_board_title_02" height="1" colspan="5" style="overflow: hidden; padding: 0px"></td>
 				</tr>
 				<%
 					}
@@ -108,8 +113,7 @@ html{
 				%>
 
 				<tr align="center">
-					<td align="center" class="text_gray" colspan="5"><br> 부서가
-						존재하지 않습니다.<br> <br></td>
+					<td align="center" class="text_gray" colspan="5"><br> 부서가 존재하지 않습니다.<br> <br></td>
 				</tr>
 		<%
 			}
@@ -121,24 +125,26 @@ html{
 	</div>
 	<div class="outer">
 		<form name="deptform" method="post" style="margin: 30px">
-			<input type="hidden" id="act1" name="act" value="">
+			<input type="hidden" id="act2" name="act" value="">
 			<div align="center" style="padding: 10px;" id="deptDiv">
+			<table>
 				<tr>
 					<td align="center">부서번호</td>
 					<td align="center">
-                    <input type="text" id="dept_num" name="dept_num" size="10" disabled="disabled"></td>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<td align="center" >부서명</td>
-					<td align="center" >
-                    <input type="text" id="dept_name" name="dept_name"
-						size="15"></td>
+                    	<input type="text" id="dept_num" name="dept_num" size="10" disabled="disabled"  value="">
+                    </td>
+					<td align="center">부서명</td>
+					<td align="center">
+                    	<input type="text" id="dept_name" name="dept_name" size="15" value="">
+                    </td>
 				</tr>
+			</table>
             </div>
             <div align="center" style="padding: 10px;">
 				<tr align="center">
                 <td colspan="5">
 					<input type="button" class="btn btn-default" value="등록" onclick="javascript:deptRegister();">&nbsp;&nbsp;
-					<input type="button" class="btn btn-default" value="수정">&nbsp;&nbsp;
+					<input type="button" class="btn btn-default" value="수정" onclick="javascript:deptModify();">&nbsp;&nbsp;
 					<input type="button" class="btn btn-default" value="삭제" onclick="javascript:deptDelete();">&nbsp;&nbsp;
                    </td>
 				</tr>

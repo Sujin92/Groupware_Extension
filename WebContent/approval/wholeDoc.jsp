@@ -9,7 +9,8 @@
 	if (list != null) {
 		PageNavigation navigator = (PageNavigation) request.getAttribute("navigator");
 %>
-
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <form name="commonForm" method="get" action="">
 	<input type="hidden" name="act" value=""> <input type="hidden"
 		name="pg" value="">
@@ -17,7 +18,10 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">전자결재문서</h1>
+					<header class="headers">
+				<h3> 전자결재 </h3>
+			</header class="headers">
+			<br>
 			<%@include file="list.jsp"%>
 			<div class="col-lg-8">
 				<div>대기문서</div>

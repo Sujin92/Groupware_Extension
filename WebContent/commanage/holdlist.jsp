@@ -10,6 +10,33 @@
 	if (list != null) {
 		PageNavigation navigator = (PageNavigation) request.getAttribute("navigator");
 %>
+<style>
+html{
+   width: 100%;
+   height: 100%;
+}
+.container {
+   width: 100%;
+   height: 100%;
+}
+.outer {
+   display: table;
+   width: 100%;
+   height: 100%;
+}
+.inner {
+   display: table-cell;
+   vertical-align: middle;
+}
+.centered {
+   position: relative;
+   display: inline-block;
+   width: 60%;
+   padding: 1em;
+}
+</style>
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 function openzip() {
@@ -98,7 +125,7 @@ function modal(seq) { //modal창으로 데이터 가져오기
 	$("#hire_mm").val(hire_date[1]).attr("selected", "selected");
 	$("#hire_dd").val(hire_date[2]).attr("selected", "selected");
 	
-	if(document.getElementById("gender"+seq).textContent == "남") {
+	if(document.getElementById("gender"+seq).textContent == "남자") {
 		$("input:radio[name='gender']:radio[value='남자']").prop("checked", true);		
 	} else {
 		$("input:radio[name='gender']:radio[value='여자']").prop("checked", true);	
@@ -142,18 +169,19 @@ function openposition(){
 <form name="commonForm" method="get" action="">
 	<input type="hidden" name="act" value=""> <input type="hidden"
 		name="pg" value="">
-
 </form>
 <div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12" align="center">
-			<header>
-				<h2 align="left">사원관리</h2>
-			</header>
-			<div class="container1">
+			<header class="headers">
+				<h3> 사원관리 </h3>
+			</header class="headers">
+			<br>
+	<div class="container">
+		<div class="outer" style="height: auto; min-height: 100px; overflow: auto;" align="center">
+			<div class="inner">
 				<div align="right" class="retire">
 					<input type="button" value="퇴사자" onclick="javascript:retireList();">
 				</div>
+				<div class="centered">
 			</div>
 			<div class="contaner2">
 				<div class="modal fade" id="myModal" role="dialog">
@@ -216,7 +244,7 @@ function openposition(){
 										<tr>
 											<td class="td1">성별</td>
 											<td class="td3"><input type="radio" name="gender"
-												value="남자">남자 &nbsp; <input type="radio"
+												value="남자" checked="checked">남자 &nbsp; <input type="radio"
 												name="gender" value="여자">여자</td>
 										</tr>
 
@@ -314,9 +342,9 @@ function openposition(){
 
 										<tr>
 											<td class="td1">결혼여부</td>
-											<td class="td3"><input type="radio" name="marriage"
-												value="미혼">미혼 <input type="radio" name="marriage"
-												value="기혼">기혼</td>
+											<td class="td3">
+												<input type="radio" name="marriage" value="미혼" checked="checked">미혼 
+												<input type="radio" name="marriage" value="기혼">기혼</td>
 										</tr>
 
 										<tr>
@@ -423,12 +451,7 @@ function openposition(){
 
 				<div class="table" align="center">
 					<form name="listForm" method="post" style="margin: 0px">
-						<table width="90%" cellpadding="5" cellspacing="0" border="1">
-							<tr align="center">
-								<td class="bg_board_title_02" height="2" colspan="13"
-									style="overflow: hidden; padding: 0px"></td>
-							</tr>
-
+						<table class="table table-bordered">
 							<tr class="bg_board_title" align="center" height="30">
 								<td align="center"><b>사원번호</b></td>
 								<td align="center"><b>부서명</b></td>
@@ -443,11 +466,6 @@ function openposition(){
 								<td align="center"><b>생년월일</b></td>
 								<td align="center"><b>결혼여부</b></td>
 								<td align="center"><b>입사일</b></td>
-							</tr>
-
-							<tr align="center">
-								<td class="bg_board_title_02" height="1" colspan="13"
-									style="overflow: hidden; padding: 0px"></td>
 							</tr>
 							<%
 								int len = list.size();
@@ -487,15 +505,6 @@ function openposition(){
 								+ cominfoDto.getHire_date3()%></td>
 							</tr>
 							<%
-								if (i < len - 1) {
-							%>
-							<tr align="center">
-								<td bgcolor="#ededed" height="1" colspan="13"
-									style="overflow: hidden; padding: 0px"></td>
-								<!-- 선 한줄 -->
-							</tr>
-							<%
-								}
 										}
 									} else {
 							%>
@@ -506,10 +515,6 @@ function openposition(){
 							<%
 								}
 							%>
-							<tr align="center">
-								<td class="bg_board_title_02" height="1" colspan="13"
-									style="overflow: hidden; padding: 0px"></td>
-							</tr>
 						</table>
 					</form>
 					<!-- 하단 페이징 -->

@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" 
 import="com.moaware.util.*, com.moaware.member.model.MemberDto"%>
 <%@ include file="/common/member_header.jsp" %>
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <% 
 
 int bcode = NumberCheck.nullToZero(request.getParameter("bcode"));
@@ -82,10 +84,11 @@ function listArticle(mpg) {
 
 		<div id="page-wrapper" >
 			<div class="row">
-				<div class="col-lg-12" > 
-					<h1 class="page-header"></h1>
-
-<div style="margin:30px;padding:20px">
+				<div class="col-lg-12" >
+			<header class="headers">
+				<h3> 게시판 </h3>
+			</header class="headers">
+<div style="margin:10px;padding:20px">
  <font style="font-size: 20pt">공지사항</font> | 사내 공지사항 입니다.<br><br>
   <table class="table table-hover">
     <thead>

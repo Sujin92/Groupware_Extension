@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.moaware.factory.ProjectFactory;
 import com.moaware.factory.ScheduleActionFactory;
+
 import com.moaware.util.PageMove;
 
 /**
@@ -25,18 +25,30 @@ public class ScheduleController extends HttpServlet {
 		String path = "/index.jsp";
 
 		if ("freedate".equals(act)) {
-			System.out.println(request.getParameter("realtime"));
+			path = ScheduleActionFactory.getScheduleWriteAction().execute(request, response);
+			PageMove.forward(path, request, response);
+		} else if ("mydate".equals(act)) {
+			System.out.println("컨트롤러까진 왓냐");
 			path = ScheduleActionFactory.getScheduleAction().execute(request, response);
 			PageMove.forward(path, request, response);
-		}else if("mydate".equals(act)){
-			
+		} else if ("slist".equals(act)) {
+			System.out.println("담나??");
+			path = ScheduleActionFactory.getScheduleWriteAction().execute(request, response);
+			PageMove.forward(path, request, response);
+		} else if ("deletee".equals(act)) {
+			System.out.println("와감ㅇ나ㅓㅇㅁ너ㅏㅇㅁ너ㅏㅇㅁ너ㅏㅁㄴ어ㅏ");
+			path = ScheduleActionFactory.getScheduleDeleteAction().execute(request, response);
+			PageMove.forward(path, request, response);
+		}else if ("updatee".equals(act)){
+			path = ScheduleActionFactory.getScheduleUpdateAction().execute(request, response);
+			PageMove.forward(path, request, response);
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("EUC-KR");
 		doGet(request, response);
 	}
 

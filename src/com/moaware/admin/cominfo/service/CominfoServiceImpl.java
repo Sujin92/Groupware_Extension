@@ -86,4 +86,9 @@ public class CominfoServiceImpl implements CominfoService {
 		return CominfoDaoImpl.getCominfoDao().getDeptInfo(seq);
 	}
 
+	@Override
+	public void deptModify(DeptDto deptDto) {
+		CominfoDaoImpl.getCominfoDao().deptModify(deptDto);
+	}
+
 }

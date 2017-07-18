@@ -16,6 +16,9 @@ List<BoardDto> list = (List<BoardDto>) request.getAttribute("articleList");
 		PageNavigation navigator = (PageNavigation) request.getAttribute("navigator");
 		
 %>
+
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <script type="text/javascript">
 var root = "<%=root%>"
 var bcode="<%=bcode%>"
@@ -83,9 +86,10 @@ function listArticle(mpg) {
 		<div id="page-wrapper" >
 			<div class="row">
 				<div class="col-lg-12" > 
-					<h1 class="page-header"></h1>
-
-<div style="margin:30px;padding:20px">
+			<header class="headers">
+				<h3> 게시판 </h3>
+			</header class="headers">
+<div style="margin:10px;padding:20px">
  <font style="font-size: 20pt">FAQ</font> | 자주 묻는 질문들 입니다.<br><br>
   <table class="table table-hover">
     <thead>

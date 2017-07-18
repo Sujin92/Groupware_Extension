@@ -42,7 +42,7 @@ public class MemberRegisterAction implements Action {
 		memberDetailDto.setOut_date2(request.getParameter("out_mm"));
 		memberDetailDto.setOut_date3(request.getParameter("out_dd"));
 		
-		int cnt = MemberRegisterServiceImpl.getMemberRegisterService().register(memberDetailDto);
+		MemberRegisterServiceImpl.getMemberRegisterService().register(memberDetailDto);
 
 		return "/member_register/member_register.jsp";
 	}

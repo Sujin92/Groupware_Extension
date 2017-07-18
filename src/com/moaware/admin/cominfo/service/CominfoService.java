@@ -18,6 +18,6 @@ public interface CominfoService {
 	List<DeptDto> deptList();
 	void deptRegister(String deptName);
 	DeptDto getDeptInfo(String seq);
-	
+	void deptModify(DeptDto deptDto);
 	void deptDelete(int check);
 }

@@ -39,16 +39,19 @@ function selectedt(keydept) {
  	text-indent: 20px;
 }
 </style>
-
+<!-- Project CSS -->
+<link href="<%=root%>/dist/css/project.css" rel="stylesheet">
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300|Oswald:400,300:latin" rel="stylesheet" />
 <link href="<%=root%>/css/member_treeview.css" rel="stylesheet" />
 
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">林家废</h1>
-			
-			<div style="float: left; left: 10px; top: 10px; width: 25%; border: 1px solid gray; position: relative">
+						<header class="headers">
+				<h3> 林家废 </h3>
+			</header class="headers">
+			<br>
+			<div class="col-lg-4">
 			<h4>何辑</h4>
 				<div id="treev">
 							<form name="testform2" method="post" action="">
@@ -102,6 +105,9 @@ function selectedt(keydept) {
 					</ul>
 				</div>
 			</div>
+			
+			
+	
 	
 			<%
 		if(list2 != null){
@@ -112,7 +118,9 @@ function selectedt(keydept) {
 %>
 			<form id="testform" name="testform" method="post" action="#">
 
-				<div class="blankempty" id="addressinfo" style=" float:right;">
+			
+			
+				<div class="blankempty col-lg-8" id="addressinfo"">
 		
 				<!-- 
 					<div class="blankpic" >
@@ -168,7 +176,7 @@ function selectedt(keydept) {
 		} else {
 			
 		%>
-		<div class="blankempty" id="addressinfo" style=" float:right;">
+		<div class="blankempty col-lg-8" id="addressinfo">
 				
 				<!-- 
 					<div class="blankpic">
@@ -217,7 +225,6 @@ function selectedt(keydept) {
 					</div>
 	
 				</div>
-		
 		
 		<%
 		}

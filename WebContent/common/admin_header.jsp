@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" import="com.moaware.member.model.MemberDto"%>
 <%
 String root = request.getContextPath();
+MemberDto member = (MemberDto) session.getAttribute("loginInfo"); 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -218,7 +219,7 @@ String root = request.getContextPath();
 							Profile</a></li>
 					<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html"> <i class="fa fa-sign-out fa-fw"></i>
+					<li><a href="<%=root%>/login?act=logout"> <i class="fa fa-sign-out fa-fw"></i>
 							Logout
 					</a></li>
 				</ul> <!-- /.dropdown-user --></li>
@@ -228,93 +229,109 @@ String root = request.getContextPath();
 
 		<div class="navbar-default sidebar" role="navigation">
 			<div id="sidebar-search">
-				<h3 id="title" style="color: white">Sungjun - Gwon</h3>
-				<p style="color: white">@ Web Developer</p>
-				<p style="color: white">- kakao develop "A" team</p>
+			<p style="color: white">	</p>
+				<p style="color: white">-----------------------------------------------------</p>
+				<p id="title" style="color: white"> @ Name : <%=member.getName() %></p>
+				<p style="color: white"> @ ID : <%=member.getId() %></p>
+				<p style="color: white"> - Login 되었습니다. 행복한 하루 되세요.	</p>
+				<p style="color: white">-----------------------------------------------------</p>
+				<p style="color: white">	</p>
 			</div>
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					
-					<li><a href="index.html" style="backgrouncolor: #46B692">
+					<li><a href="<%=root%>/home/home2.jsp" style="color: #46B692">
 							<i class="fa fa-dashboard fa-fw" style="color: #46B692"></i> HOME
 					</a></li>
 				
-					<li><a href="#" style="color: white"> <i
+					<li><a href="#" style="color: #46B692"> <i
 							class="fa fa-sitemap fa-fw" style="color: #46B692"></i> 관리자 메뉴 <span
 							class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a href="<%=root%>/memberRegister?act=mvregister" style="color: white"> 사원등록</a></li>
-							<li><a href="#" style="color: white"> 회사정보관리
+							<li><a href="<%=root%>/memberRegister?act=mvregister" style="color: #46B692"> 사원등록</a></li>
+							<li><a href="#" style="color: #46B692"> 회사정보관리
 							<span class="fa arrow"></span>
 							</a>
 								<ul class="nav nav-third-level">
-									<li><a href="<%=root%>/comInfo?act=deptList">부서관리</a></li>
-									<li><a href="<%=root%>/comInfo?act=holdList&pg=1">사원정보관리</a></li>
+									<li><a href="<%=root%>/comInfo?act=deptList" style="color: #46B692">부서관리</a></li>
+									<li><a href="<%=root%>/comInfo?act=holdList&pg=1" style="color: #46B692">사원정보관리</a></li>
 								</ul> <!-- /.nav-third-level -->
 							</li>
-							<li><a href="#" style="color: white"> 업무지원
+							<li><a href="#" style="color: #46B692"> 업무지원
 							<span class="fa arrow"></span>
 							</a>
 								<ul class="nav nav-third-level">
-									<li><a href="#">전자결재관리</a></li>
-									<li><a href="#">근태관리</a></li>
-									<li><a href="#">전자결재</a></li>
+									<li><a href="<%=root%>/support?act=memberList&pg=1" style="color: #46B692">전자결재관리</a></li>
+									<li><a href="#" style="color: #46B692">근태관리</a></li>
+									<li><a href="<%=root%>/support?act=scheduleList&pg=1" style="color: #46B692">일정관리</a></li>
 								</ul> <!-- /.nav-third-level -->
 							</li>
 						</ul> <!-- /.nav-second-level -->
 					</li>
 				
-					<li><a href=# style="color: white"> <!-- 글자 앞의 아이콘 --> <i
+					<li><a href=# style="color: #46B692"> <!-- 글자 앞의 아이콘 --> <i
 							class="fa fa-table fa-fw" style="color: #46B692"></i> 마이페이지 <!-- < 화살표 -->
 							<span class="fa arrow" style="color: #46B692"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a href="morris.html" style="color: white">회원정보 </a></li>
+							<li><a href="<%=root%>/mypageController?act=mypage" style="color: #46B692">회원정보 </a></li>
 						</ul> <!-- /.nav-second-level -->
 					</li>
 
-					<li><a href="#" style="color: white"> <!-- 글자 앞의 아이콘 --> <i
+					<li><a href="#" style="color: #46B692"> <!-- 글자 앞의 아이콘 --> <i
 							class="fa fa-bar-chart-o fa-fw" style="color: #46B692"></i> 캘린더 <!-- < 화살표 -->
 							<span class="fa arrow" style="color: #46B692"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a href="calendarindex.jsp" style="color: white">일정관리</a></li>
-							<li><a href="morris.html" style="color: white">근태관리</a></li>
+							<li><a href="<%=root %>/ScheduleController?act=mydate" style="color: #46B692">일정관리</a></li>
+							<li><a href="morris.html" style="color: #46B692">근태관리</a></li>
 						</ul> <!-- /.nav-second-level --></li>
 
-					<li><a href="tables.html" style="color: white"> <i
-							class="fa fa-table fa-fw" style="color: #46B692"></i> 조직도 & 주소록
-					</a></li>
-
-					<li><a href="forms.html" style="color: white"> <i
-							class="fa fa-edit fa-fw" style="color: #46B692"></i> 전자결재
-					</a></li>
-
-					<li><a href="#" style="color: white"> <i
-							class="fa fa-wrench fa-fw" style="color: #46B692"></i> 게시판 <span
-							class="fa arrow"></span>
-					</a>
+					<li>
+						<a href="" style="color: #46B692">
+							<i class="fa fa-table fa-fw" style="color: #46B692"></i> 조직도 & 주소록
+							<span class="fa arrow"></span>
+						</a>
 						<ul class="nav nav-second-level">
-							<li><a href="panels-wells.html" style="color: white">공지사항</a></li>
-							<li><a href="notifications.html" style="color: white">Q&A</a></li>
-							<li><a href="typography.html" style="color: white">부서별
-									게시판</a></li>
-							<li><a href="icons.html" style="color: white">FAQ</a></li>
-						</ul> <!-- /.nav-second-level --></li>
+							<li><a href="<%=root %>/org?act=chart" style="color: #46B692">조직도</a></li>
+							<li><a href="<%=root %>/org?act=address" style="color: #46B692">주소록</a></li>
+						</ul>
+					</li>
 
-					<li><a href="#" style="color: white"> <i
-							class="fa fa-sitemap fa-fw" style="color: #46B692"></i> 프로젝트 관리 <span
-							class="fa arrow"></span>
-					</a>
+					<li>
+						<a href="<%=root%>/appcontrol?act=approval" style="color: #46B692">
+							<i class="fa fa-edit fa-fw" style="color: #46B692"></i> 전자결재
+						</a>
+					</li>
+					
+					<li>
+						<a href="#" style="color: #46B692">
+							<i class="fa fa-wrench fa-fw" style="color: #46B692"></i> 게시판
+							<span class="fa arrow"></span>
+						</a>
 						<ul class="nav nav-second-level">
-							<li><a href="#" style="color: white">Todo</a></li>
-						</ul> <!-- /.nav-second-level --></li>
-
-					<li><a href="#" style="color: white"> <i
-							class="fa fa-files-o fa-fw" style="color: #46B692"></i> 메신저 <span
-							class="fa arrow"></span>
-					</a>
+							<li><a href="<%=root%>/board?act=list&bcode=0&pg=1&key=&word=" style="color: #46B692">공지사항</a></li>
+							<li><a href="<%=root%>/reboard?act=list&bcode=1&pg=1&key=&word=" style="color: #46B692">Q&A</a></li>
+							<li><a href="<%=root%>/group?act=list&bcode=2&pg=1&key=&word=" style="color: #46B692">부서별 게시판</a></li>
+							<li><a href="<%=root%>/faq?act=list&bcode=3&pg=1&key=&word=" style="color: #46B692">FAQ</a></li>
+						</ul> <!-- /.nav-second-level -->
+					</li>
+					
+					<li>
+						<a href="" style="color: #46B692">
+							<i class="fa fa-sitemap fa-fw" style="color: #46B692"></i> 프로젝트 관리
+							<span class="fa arrow"></span>
+						</a>
+						<ul class="nav nav-second-level">
+							<li><a href="<%=root%>/project?act=cardList" style="color: #46B692">Todo</a></li>
+						</ul> <!-- /.nav-second-level -->
+					</li>
+					
+					<li>
+						<a href="#" style="color: #46B692">
+							<i class="fa fa-files-o fa-fw" style="color: #46B692"></i> 메신저
+						</a>
 					</li>
 				</ul>
 			</div>

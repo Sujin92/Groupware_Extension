@@ -10,7 +10,7 @@ int pg = NumberCheck.nullToOne(request.getParameter("pg"));
 String key = Encoding.nullToBlank(request.getParameter("key"));
 String word = Encoding.isoToEuc(request.getParameter("word"));
 
-MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo"); 
+MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo"); 	
 List<ReboardDto> list = (List<ReboardDto>) request.getAttribute("articleList");
 	if(memberDto!=null){
 %>

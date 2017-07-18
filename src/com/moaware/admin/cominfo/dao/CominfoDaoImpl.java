@@ -35,7 +35,7 @@ public class CominfoDaoImpl implements CominfoDao {
 			sql.append("	from (select m.emp_num, dept_name, position_name, id, pass, name, gender, email1, email2, tel1, tel2, tel3, \n");
 			sql.append("		zip1, zip2, addr1, addr2, birth1, birth2, birth3, marriage, hire_date1, hire_date2, hire_date3, out_date1, out_date2, out_date3 \n");
 			sql.append("		from member_info m, member_detail_info d, dept_info i, position_info p \n");
-			sql.append("		where m.emp_num = d.emp_num and m.dept_num = i.dept_num and m.position_num = p.position_num and out_date1 is null \n");
+			sql.append("		where m.emp_num = d.emp_num and m.dept_num = i.dept_num and m.position_num = p.position_num and out_date1 is null and id <> 'admin' \n");
 			sql.append("		order by hire_date1, hire_date2, hire_date3, name \n");
 			sql.append("		) a \n");
 			sql.append("	where rownum <= ? \n");
@@ -343,9 +343,10 @@ public class CominfoDaoImpl implements CominfoDao {
 		try {
 			conn = DBConnection.getConnection();
 			StringBuffer sql = new StringBuffer();
-			sql.append("delete from dept_info where dept_num = ?");
+			sql.append("delete from dept_info where dept_num = ? and (select count(*) from member_info where dept_num = ?) = 0");
 			psmt = conn.prepareStatement(sql.toString());
 			psmt.setInt(1, check);
+			psmt.setInt(2, check);
 			psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -378,6 +379,28 @@ public class CominfoDaoImpl implements CominfoDao {
 			DBClose.close(conn, psmt, rs);
 		}
 		return deptDto;
+	}
+
+	@Override
+	public void deptModify(DeptDto deptDto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DBConnection.getConnection();
+			StringBuffer sql = new StringBuffer();
+			sql.append("update dept_info set \n");
+			sql.append("dept_name = ? \n");
+			sql.append("where dept_num = ? \n");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, deptDto.getDept_name());
+			pstmt.setInt(2, deptDto.getDept_num());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(conn, pstmt);
+		}
 	}
 	
 }

@@ -138,7 +138,7 @@ List<ProjectDto> list = (List<ProjectDto>)request.getAttribute("cardlist");
 	<div class="row">
 		<div class="col-lg-12">
 			<header class="headers">
-				<h3>----------------------------------------------   Department - Project Todo   ---------------------------------------------- </h3>
+				<h3> 프로젝트 관리 </h3>
 			</header class="headers">
 
 			<div class="container1">
@@ -267,7 +267,7 @@ int size = list.size();
 								type="text" class="form-control"></textarea>
 								
 								<br>	
-					<button  type="button" class="btn btn-success" onclick="javascript:add_div2();">CREATE</button>
+					<button  type="button" class="btn btn-primary" onclick="javascript:add_div2();">CREATE</button>
 					
 						</form>
 
@@ -317,7 +317,7 @@ int size = list.size();
 							<textarea rows="5" cols="23" id="area3" name="area3"
 								type="text" class="form-control"></textarea>
 								<br>	
-							<button  type="button" class="btn btn-info" onclick="javascript:add_div3();">CREATE</button>
+							<button  type="button" class="btn btn-primary" onclick="javascript:add_div3();">CREATE</button>
 								
 						</form>
 
@@ -369,7 +369,7 @@ int size = list.size();
 							<textarea rows="5" cols="23" id="area4" name="area4"
 								type="text" class="form-control"></textarea>
 								<br>	
-							<button  type="button" class="btn btn-warning" onclick="javascript:add_div4();">CREATE</button>
+							<button  type="button" class="btn btn-primary" onclick="javascript:add_div4();">CREATE</button>
 							
 						</form>
 

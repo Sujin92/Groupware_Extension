@@ -118,11 +118,11 @@ public class MemberRegisterDaoImpl implements MemberRegisterDao {
 			conn = DBConnection.getConnection();
 			StringBuffer sql = new StringBuffer();
 			sql.append("insert all \n");
-	         sql.append("into member_info(emp_num, dept_num, position_num, id, pass, name, gender, email1, email2, tel1, tel2, tel3) \n");
-	         sql.append("values(emp_num_seq.nextval, (select dept_num from dept_info where dept_name=?), (select position_num from position_info where position_name=?), ?, ?, ?, ?, ?, ?, ?, ?, ?) \n");
-	         sql.append("into member_detail_info(emp_num, zip1, zip2, addr1, addr2, birth1, birth2, birth3, marriage, hire_date1, hire_date2, hire_date3) \n");
-	         sql.append("values(emp_num_seq.currval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \n");
-	         sql.append("select * from dual");
+	        sql.append("into member_info(emp_num, dept_num, position_num, id, pass, name, gender, email1, email2, tel1, tel2, tel3) \n");
+	        sql.append("values(emp_num_seq.nextval, (select dept_num from dept_info where dept_name=?), (select position_num from position_info where position_name=?), ?, ?, ?, ?, ?, ?, ?, ?, ?) \n");
+	        sql.append("into member_detail_info(emp_num, zip1, zip2, addr1, addr2, birth1, birth2, birth3, marriage, hire_date1, hire_date2, hire_date3) \n");
+	        sql.append("values(emp_num_seq.currval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \n");
+	        sql.append("select * from dual");
 			pstmt = conn.prepareStatement(sql.toString());
 			int idx = 0;
 			pstmt.setString(++idx, memberDetailDto.getDept_name());

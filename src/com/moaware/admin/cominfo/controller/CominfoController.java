@@ -47,13 +47,12 @@ public class CominfoController extends HttpServlet {
 			path = CominfoFactory.getDeptGetInfoModifyAction().execute(request, response);
 			PageMove.forward(path, request, response);
 		} else if ("deptModify".equals(act)) {
-			path = "";
+			path = CominfoFactory.getDeptModifyAction().execute(request, response);
 			PageMove.forward(path, request, response);
 		} else if ("deptDelete".equals(act)) {
 			path = CominfoFactory.getDeptDeleteAction().execute(request, response);
 			PageMove.forward(path, request, response);
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
