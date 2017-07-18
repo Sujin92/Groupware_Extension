@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR" %>
 <%@ include file="/common/member_header.jsp" %>
-<%
-    MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo");
-    String doc_seq = (String) request.getAttribute("writePaper");
-%>
 <script type="text/javascript" src="/moa/js/myajax.js"></script>
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
 <script>
     window.onload = function () {
         var date = new Date();
@@ -37,7 +31,7 @@
             alert("내용을 입력해주세요");
             return;
         } else {
-//            oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+            oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
             document.paperForm.action = "<%=root%>/appcontrol";
             document.paperForm.submit();
         }
@@ -51,7 +45,7 @@
         modal = document.getElementById("myModal");
         span = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
-        sendRequest("<%=root%>/appcontrol", "act=getmember", displayModal, "GET");
+        sendRequest("/moa/appcontrol", "act=getmember", displayModal, "GET");
     }
 
     function displayModal() {
@@ -125,7 +119,7 @@
         modal2 = document.getElementById("myModalDept");
         span2 = document.getElementsByClassName("close")[0];
         modal2.style.display = "block";
-        sendRequest("<%=root%>/appcontrol", "act=getdept", displayModalDept, "GET");
+        sendRequest("/moa/appcontrol", "act=getdept", displayModalDept, "GET");
     }
 
     function displayModalDept() {
@@ -135,12 +129,9 @@
                 var txt = JSON.parse(tmp);
                 var i;
                 var x = "";
-                x+= "<select id=\"selDept\">";
                 for (i in txt.info) {
-//                    x += "<input type='checkbox' name='dept'>" + txt.info[i].dept_name + "&nbsp;";
-                    x += "<option value=\"" + txt.info[i].dept_name + "\">" + txt.info[i].dept_name + "</option>";
+                    x += "<input type='checkbox' name='dept'>" + txt.info[i].dept_name + "&nbsp;";
                 }
-                x += "</select>";
                 document.getElementById("getdept").innerHTML = x;
             } else {
                 alert("문제발생 : " + httpRequest.status);
@@ -149,18 +140,17 @@
     }
 
     function getDept() {
-        document.getElementById("receiveDept").value = document.getElementById("selDept").value;
-        closeModalDept();
+        var p = position;
+//        var txt = JSON.parse(m);
+        var confirm = "confirm" + p;
+        var sel = "sel" + p;
+        var ch = "ch" + p;
+        document.getElementById("confirm_line" + p).value = m.emp_num;
+        document.getElementById(confirm).innerHTML = m.position_num + " " + m.name;
+        document.getElementById(sel).style.display = "none";
+        document.getElementById(ch).style.display = "block";
+        closeModal();
     }
-
-    $(document).ready(function () {
-        $('#content').summernote({
-            height: 700,
-            minHeight: null,
-            maxHeight: null,
-            focus: true
-        });
-    });
 
 </script>
 <style>
@@ -203,6 +193,7 @@
         cursor: pointer;
     }
 </style>
+<script type="text/javascript" src="/moa/editor/js/service/HuskyEZCreator.js" charset="EUC-KR"></script>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -245,7 +236,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>문서번호</th>
-                            <td><%=doc_seq%></td>
+                            <td>123-333<input type="checkbox">문서번호 등록</td>
                             <th rowspan="2">결재</th>
                             <td id="confirm" rowspan="2">
                                 <div id="confirm1"></div>
@@ -272,25 +263,22 @@
                         <tr>
                             <th>기안일</th>
                             <td>
-                                <input type="text" id="year" name="year">년
-                                <input type="text" id="month" name="month">월
-                                <input type="text" id="day" name="day">일
+                                <input type="text" id="year" name="year" size="7">년
+                                <input type="text" id="month" name="month" size="7">월
+                                <input type="text" id="day" name="day" size="7">일
                             </td>
                             <th>수신부서</th>
                             <td colspan="3">
                                 <input type="text" id="receiveDept" name="receiveDept">
-                                <input type="button" name="selectDept" id="selectDept" onclick="doModalDept();"
-                                       value="수신부서지정">
+                                <input type="button" name="selectDept" id="selectDept" onclick="doModalDept();" value="수신부서지정">
                                 <%--<input type="button" name="viewDept" id="viewDept" value="수신부서보기">--%>
                             </td>
                         </tr>
                         <tr>
                             <th>기안자</th>
-                            <td>사원 <%=memberDto.getName()%>
-                            </td>
+                            <td>사원</td>
                             <th>부서</th>
-                            <td colspan="3"><%=memberDto.getDept_num()%>
-                            </td>
+                            <td colspan="3"></td>
                         </tr>
                         <tr>
                             <th>제목</th>
@@ -303,6 +291,26 @@
                             <td colspan="6">
                             <textarea name="content" id="content" cols="" rows="30" style="width: 100%;">
                             </textarea>
+                                <script type="text/javascript">
+                                    var oEditors = [];
+                                    nhn.husky.EZCreator.createInIFrame({
+                                        oAppRef: oEditors,
+                                        elPlaceHolder: "content",
+                                        sSkinURI: "/moa/editor/SmartEditor2Skin.html",
+                                        htParams: {
+                                            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+                                            bUseToolbar: true,
+                                            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+                                            bUseVerticalResizer: false,
+                                            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+                                            bUseModeChanger: true,
+                                            fOnBeforeUnload: function () {
+
+                                            }
+                                        },
+                                        fCreator: "createSEditor2"
+                                    });
+                                </script>
                             </td>
                         </tr>
                         <tr>

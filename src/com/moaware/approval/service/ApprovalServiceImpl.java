@@ -3,12 +3,16 @@ package com.moaware.approval.service;
 import com.moaware.approval.dao.ApprovalDaoImpl;
 import com.moaware.approval.model.ApprovalDto;
 import com.moaware.approval.model.DeptDto;
+import com.moaware.approval.util.PageNavigation;
 import com.moaware.member.model.MemberDto;
+import com.moaware.util.Constance;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gwasan on 2017. 6. 20..
@@ -99,5 +103,54 @@ public class ApprovalServiceImpl implements ApprovalService{
     @Override
     public void cancel(String doc_num, String type) {
         ApprovalDaoImpl.getApprovalDaoImpl().cancel(doc_num, type);
+    }
+
+    @Override
+    public Map<Integer, Integer> approvalDoc(String emp_num) {
+        return ApprovalDaoImpl.getApprovalDaoImpl().approvalDoc(emp_num);
+    }
+
+    @Override
+    public List<ApprovalDto> approvalList1(String emp_num) {
+        return ApprovalDaoImpl.getApprovalDaoImpl().approvalList1(emp_num);
+    }
+
+    @Override
+    public List<ApprovalDto> approvalList2(String emp_num) {
+        return ApprovalDaoImpl.getApprovalDaoImpl().approvalList2(emp_num);
+    }
+
+    @Override
+    public List<ApprovalDto> docList(String emp_num, String state, int pg) {
+        int end = pg * Constance.LIST_SIZE;
+        int start = end - Constance.LIST_SIZE;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("start", start + "");
+        map.put("end", end + "");
+        return ApprovalDaoImpl.getApprovalDaoImpl().docList(emp_num, state, map);
+    }
+
+    @Override
+    public List<ApprovalDto> wholeList(String emp_num, int pg) {
+        int end = pg * Constance.LIST_SIZE;
+        int start = end - Constance.LIST_SIZE;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("start", start + "");
+        map.put("end", end + "");
+        return ApprovalDaoImpl.getApprovalDaoImpl().wholeList(emp_num, map);
+    }
+
+    @Override
+    public PageNavigation makePageNavigation(int pg, String state, String emp_num) {
+        PageNavigation pageNavigation = new PageNavigation();
+        int totalArticleCount = ApprovalDaoImpl.getApprovalDaoImpl().totalArticleCount(state, emp_num); //��ü �Խù� ��
+        pageNavigation.setTotalArticleCount(totalArticleCount);
+        int totalPageCount = (totalArticleCount - 1) / Constance.LIST_SIZE + 1; //��ü ������ ��
+        pageNavigation.setTotalPageCount(totalPageCount);
+
+        pageNavigation.setNowFirst(pg <= Constance.PAGE_SIZE);
+        pageNavigation.setNowEnd((totalPageCount - 1) / Constance.PAGE_SIZE * Constance.PAGE_SIZE < pg);
+        pageNavigation.setPageNo(pg);
+        return pageNavigation;
     }
 }

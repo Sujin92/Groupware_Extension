@@ -7,12 +7,15 @@ import com.moaware.member.model.MemberDto;
 import com.moaware.util.db.DBClose;
 import com.moaware.util.db.DBConnection;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gwasan on 2017. 6. 20..
@@ -322,4 +325,331 @@ public class ApprovalDaoImpl implements ApprovalDao {
             DBClose.close(conn, pstmt);
         }
     }
+
+    @Override
+    public Map<Integer, Integer> approvalDoc(String emp_num) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int cnt1 = 0;
+        int cnt2 = 0;
+        int cnt3 = 0;
+        int cnt4 = 0;
+        int cnt5 = 0;
+        int cnt6 = 0;
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select count(*) count1 from document_info d, member_info m where d.emp_num = m.emp_num and d.emp_num = ? and doc_state = '�̰���'");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt1 = rs.getInt("count1");
+            map.put(1, cnt1);
+            rs.close();
+            pstmt.close();
+
+            StringBuffer sql2 = new StringBuffer();
+            sql2.append("select count(*) count2 from document_info d, member_info m where d.emp_num = m.emp_num and d.emp_num = ? and doc_state = '����'");
+            pstmt = conn.prepareStatement(sql2.toString());
+            pstmt.setString(1, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt2 = rs.getInt("count2");
+            map.put(2, cnt2);
+            rs.close();
+            pstmt.close();
+
+            StringBuffer sql3 = new StringBuffer();
+            sql3.append("select count(*) count3 from document_info d, member_info m where d.emp_num = m.emp_num and d.emp_num = ? and doc_state = '�ݷ�'");
+            pstmt = conn.prepareStatement(sql3.toString());
+            pstmt.setString(1, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt3 = rs.getInt("count3");
+            map.put(3, cnt3);
+            rs.close();
+            pstmt.close();
+
+            StringBuffer sql4 = new StringBuffer();
+            sql4.append("select count(*) count4 from document_info d, member_info m where d.emp_num = m.emp_num and d.emp_num = ?");
+            pstmt = conn.prepareStatement(sql4.toString());
+            pstmt.setString(1, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt4 = rs.getInt("count4");
+            map.put(4, cnt4);
+            rs.close();
+            pstmt.close();
+
+            StringBuffer sql5 = new StringBuffer();
+            sql5.append("select count(*) count5 \n");
+            sql5.append("from DOCUMENT_INFO \n");
+            sql5.append("where (CONFIRM_LINE_1 = ? and CONFIRM_LINE_1_OK = 0) \n");
+            sql5.append("    or (CONFIRM_LINE_2 = ? and CONFIRM_LINE_2_OK = 0) \n");
+            sql5.append("    or (CONFIRM_LINE_3 = ? and CONFIRM_LINE_3_OK = 0) \n");
+            pstmt = conn.prepareStatement(sql5.toString());
+            pstmt.setString(1, emp_num);
+            pstmt.setString(2, emp_num);
+            pstmt.setString(3, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt5 = rs.getInt("count5");
+            map.put(5, cnt5);
+            rs.close();
+            pstmt.close();
+
+            StringBuffer sql6 = new StringBuffer();
+            sql6.append("select count(*) count6 \n");
+            sql6.append("from DOCUMENT_INFO \n");
+            sql6.append("where (CONFIRM_LINE_1 = ? and CONFIRM_LINE_1_OK = 1) \n");
+            sql6.append("    or (CONFIRM_LINE_2 = ? and CONFIRM_LINE_2_OK = 1) \n");
+            sql6.append("    or (CONFIRM_LINE_3 = ? and CONFIRM_LINE_3_OK = 1) \n");
+            pstmt = conn.prepareStatement(sql6.toString());
+            pstmt.setString(1, emp_num);
+            pstmt.setString(2, emp_num);
+            pstmt.setString(3, emp_num);
+            rs = pstmt.executeQuery();
+            rs.next();
+            cnt6 = rs.getInt("count6");
+            map.put(6, cnt6);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return map;
+    }
+
+    @Override
+    public List<ApprovalDto> approvalList1(String emp_num) {
+        List<ApprovalDto> list = new ArrayList<ApprovalDto>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ApprovalDto approvalDto = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select doc_num, draft_date, doc_subject, emp_num \n");
+            sql.append("from document_info \n");
+            sql.append("where (CONFIRM_LINE_1 = ? and CONFIRM_LINE_1_OK = 0) \n");
+            sql.append("    or (CONFIRM_LINE_2 = ? and CONFIRM_LINE_2_OK = 0) \n");
+            sql.append("    or (CONFIRM_LINE_3 = ? and CONFIRM_LINE_3_OK = 0) \n");
+            sql.append("order by draft_date desc");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            pstmt.setString(2, emp_num);
+            pstmt.setString(3, emp_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                approvalDto = new ApprovalDto();
+                approvalDto.setDoc_num(rs.getString("doc_num"));
+                approvalDto.setDraft_date(rs.getString("draft_date"));
+                approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setEmp_num(rs.getString("emp_num"));
+
+                list.add(approvalDto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ApprovalDto> approvalList2(String emp_num) {
+        List<ApprovalDto> list = new ArrayList<ApprovalDto>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ApprovalDto approvalDto = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select doc_num, draft_date, doc_subject, doc_state from document_info d, member_info m \n");
+            sql.append("where d.emp_num = m.emp_num and d.emp_num = ? \n");
+            sql.append("order by draft_date desc");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                approvalDto = new ApprovalDto();
+                approvalDto.setDoc_num(rs.getString("doc_num"));
+                approvalDto.setDraft_date(rs.getString("draft_date"));
+                approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setDoc_state(rs.getString("doc_state"));
+
+                list.add(approvalDto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ApprovalDto> docList(String emp_num, String state, Map<String, String> map) {
+        List<ApprovalDto> list = new ArrayList<ApprovalDto>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ApprovalDto approvalDto = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select b.* \n");
+            sql.append("from(select rownum rn, a.* \n");
+            sql.append("	from (select doc_num, d.emp_num, doc_type_num, doc_name, doc_state, doc_subject, doc_content, draft_date, receive_dept, confirm_line_1, confirm_line_2, confirm_line_3 \n");
+            sql.append("		from document_info d, member_info m \n");
+            sql.append("		where d.emp_num = m.emp_num and d.emp_num = ? and doc_state = ? \n");
+            sql.append("		order by draft_date desc \n");
+            sql.append("		) a \n");
+            sql.append("	where rownum <= ? \n");
+            sql.append("	) b \n");
+            sql.append("where b.rn > ?");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            pstmt.setString(2, state);
+            pstmt.setString(3, map.get("end"));
+            pstmt.setString(4, map.get("start"));
+
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                approvalDto = new ApprovalDto();
+                approvalDto.setDoc_num(rs.getString("doc_num"));
+                approvalDto.setEmp_num(rs.getString("emp_num"));
+                approvalDto.setDoc_type_num(rs.getString("doc_type_num"));
+                approvalDto.setDoc_name(rs.getString("doc_name"));
+                approvalDto.setDoc_state(rs.getString("doc_state"));
+                approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setDoc_content(rs.getString("doc_content"));
+                approvalDto.setDraft_date(rs.getString("draft_date"));
+                approvalDto.setReceive_dept(rs.getString("receive_dept"));
+                approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
+                approvalDto.setConfirm_line_2(rs.getString("confirm_line_2"));
+                approvalDto.setConfirm_line_3(rs.getString("confirm_line_3"));
+
+                list.add(approvalDto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ApprovalDto> wholeList(String emp_num, Map<String, String> map) {
+        List<ApprovalDto> list = new ArrayList<ApprovalDto>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ApprovalDto approvalDto = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select b.* \n");
+            sql.append("from(select rownum rn, a.* \n");
+            sql.append("	from (select doc_num, emp_num, doc_type_num, doc_name, doc_state, doc_subject, doc_content, draft_date, receive_dept, confirm_line_1, confirm_line_2, confirm_line_3 \n");
+            sql.append("		from document_info \n");
+            sql.append("		where emp_num = ? \n ");
+            sql.append("		order by draft_date desc \n");
+            sql.append("		) a \n");
+            sql.append("	where rownum <= ? \n");
+            sql.append("	) b \n");
+            sql.append("where b.rn > ?");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            pstmt.setString(2, map.get("end"));
+            pstmt.setString(3, map.get("start"));
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                approvalDto = new ApprovalDto();
+                approvalDto.setDoc_num(rs.getString("doc_num"));
+                approvalDto.setEmp_num(rs.getString("emp_num"));
+                approvalDto.setDoc_type_num(rs.getString("doc_type_num"));
+                approvalDto.setDoc_name(rs.getString("doc_name"));
+                approvalDto.setDoc_state(rs.getString("doc_state"));
+                approvalDto.setDoc_subject(rs.getString("doc_subject"));
+                approvalDto.setDoc_content(rs.getString("doc_content"));
+                approvalDto.setDraft_date(rs.getString("draft_date"));
+                approvalDto.setReceive_dept(rs.getString("receive_dept"));
+                approvalDto.setConfirm_line_1(rs.getString("confirm_line_1"));
+                approvalDto.setConfirm_line_2(rs.getString("confirm_line_2"));
+                approvalDto.setConfirm_line_3(rs.getString("confirm_line_3"));
+
+                list.add(approvalDto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public int totalArticleCount(String state, String emp_num) {
+        int count = 0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select count(doc_num) \n");
+            sql.append("from document_info \n");
+            sql.append("where emp_num = ? \n");
+            if(state.equals("�̰���"))
+                sql.append("and doc_state = ? \n");
+            else if(state.equals("�ݷ�"))
+                sql.append("and doc_state = ? \n");
+            else if(state.equals("����"))
+                sql.append("and doc_state = ? \n");
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setString(1, emp_num);
+            if(!state.equals(""))
+                pstmt.setString(2, state);
+            rs = pstmt.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return count;
+    }
+
+    @Override
+    public String writePaper(HttpServletRequest request) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            StringBuffer sql = new StringBuffer();
+            sql.append("select last_number from user_sequences where sequence_name = upper('doc_num_seq') ");
+            pstmt = conn.prepareStatement(sql.toString());
+            rs = pstmt.executeQuery();
+            rs.next();
+            request.setAttribute("writePaper", rs.getInt("last_number") + "");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBClose.close(conn, pstmt, rs);
+        }
+        return "/approval/order_paper.jsp";
+
+    }
+
+
 }

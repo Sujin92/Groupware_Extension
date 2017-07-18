@@ -12,6 +12,11 @@ public class ApprovalFactory {
     private static Action approvalOutstandingAction;
     private static Action approvalViewAction;
     private static Action approvalCompelteAction;
+    private static Action approvalMainAction;
+    private static Action readyDocAction;
+    private static Action returnDocAction;
+    private static Action finishDocAction;
+    private static Action wholeDocAction;
 
     static {
         approvalWriteAction = new ApprovalWriteAction();
@@ -19,6 +24,31 @@ public class ApprovalFactory {
         approvalOutstandingAction = new ApprovalOutstandingAction();
         approvalViewAction = new ApprovalViewAction();
         approvalCompelteAction = new ApprovalCompleteAction();
+        approvalMainAction = new ApprovalMainAction();
+        readyDocAction = new ReadyDocAction();
+        returnDocAction = new ReturnDocAction();
+        finishDocAction = new FinishDocAction();
+        wholeDocAction = new WholeDocAction();
+    }
+
+    public static Action getApprovalMainAction() {
+        return approvalMainAction;
+    }
+
+    public static Action getReadyDocAction() {
+        return readyDocAction;
+    }
+
+    public static Action getReturnDocAction() {
+        return returnDocAction;
+    }
+
+    public static Action getFinishDocAction() {
+        return finishDocAction;
+    }
+
+    public static Action getWholeDocAction() {
+        return wholeDocAction;
     }
 
     public static Action getApprovalCompelteAction() {

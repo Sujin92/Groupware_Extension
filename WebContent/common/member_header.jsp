@@ -288,7 +288,7 @@ MemberDto member = (MemberDto) session.getAttribute("loginInfo");
 					</li>
 					
 					<li>
-						<a href="<%=root%>/approval/approval.jsp" style="color: #46B692">
+						<a href="<%=root%>/appcontrol?act=approval" style="color: #46B692">
 							<i class="fa fa-edit fa-fw" style="color: #46B692"></i> 전자결재
 						</a>
 					</li>

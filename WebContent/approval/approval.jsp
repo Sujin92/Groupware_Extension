@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR" %>
-<%@ include file="/common/member_header.jsp" %>
+         pageEncoding="EUC-KR" import="java.util.Map, java.util.List, com.moaware.approval.model.ApprovalDto"%>
+<%@ include file="/common/member_header.jsp"%>
 <%
     MemberDto memberDto = (MemberDto) session.getAttribute("loginInfo");
+    Map map = (Map) request.getAttribute("doc1");
+    List<ApprovalDto> list1 = (List<ApprovalDto>) request.getAttribute("doc2");
+    List<ApprovalDto> list2 = (List<ApprovalDto>) request.getAttribute("doc3");
+    if(list1 != null && list2 != null) {
 %>
 <div id="page-wrapper">
     <div class="row">
@@ -14,34 +18,34 @@
             <div class="col-lg-3">
                 <div>결재할 문서함</div>
                 <table class="table table-bordered">
-                <tr>
-                    <th>미결재</th>
-                    <td>0건</td>
-                </tr>
-                <tr>
-                    <th>결재</th>
-                    <td>0건</td>
-                </tr>
-            </table>
+                    <tr>
+                        <th>미결재</th>
+                        <td><%=map.get(5) %>건</td>
+                    </tr>
+                    <tr>
+                        <th>결재</th>
+                        <td><%=map.get(6) %>건</td>
+                    </tr>
+                </table>
             </div>
             <div class="col-lg-3">
                 <div>개인 문서함</div>
                 <table class="table table-bordered">
                     <tr>
-                        <th>상신문서</th>
-                        <td>0건</td>
+                        <th>대기문서</th>
+                        <td><%=map.get(1)%>건</td>
                         <th>반려문서</th>
-                        <td>0건</td>
+                        <td><%=map.get(3)%>건</td>
                     </tr>
                     <tr>
-                        <th>상신취소</th>
-                        <td>0건</td>
                         <th>결재완료</th>
-                        <td>0건</td>
+                        <td><%=map.get(2)%>건</td>
+                        <th>상신문서</th>
+                        <td><%=map.get(4)%>건</td>
                     </tr>
                 </table>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div>결재할 문서함 > 미결재 문서</div>
                 <table class="table table-bordered">
                     <tr>
@@ -49,24 +53,36 @@
                         <th>기안일자</th>
                         <th>문서명</th>
                         <th>기안자</th>
-                        <th>나의결재</th>
-                        <th>상태</th>
-                        <th>다음결재자</th>
-                        <th>의견</th>
                     </tr>
+                    <%
+                        int count1 = list1.size();
+                        if(count1 != 0) {
+                            for(int i=0; i < count1; i++) {
+                                ApprovalDto approvalDto = list1.get(i);
+                                if(i > 4)
+                                    break;
+                    %>
                     <tr>
-                        <td>22</td>
-                        <td>2020.02.30</td>
-                        <td>모아 기안서</td>
-                        <td>정현우</td>
-                        <td>미결재</td>
-                        <td>진행중</td>
-                        <td>박부장</td>
-                        <td>..</td>
+                        <td><%=approvalDto.getDoc_num() %></td>
+                        <td><%=approvalDto.getDraft_date() %></td>
+                        <td><%=approvalDto.getDoc_subject() %></td>
+                        <td><%=approvalDto.getEmp_num() %></td>
                     </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr align="center">
+                        <td align="center" class="text_gray" colspan="5"><br>
+                            미결재 문서가 존재하지 않습니다.<br><br>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
                 </table>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div>개인 문서함 > 상신문서</div>
                 <table class="table table-bordered">
                     <tr>
@@ -74,15 +90,33 @@
                         <th>기안일자</th>
                         <th>문서명</th>
                         <th>상태</th>
-                        <th>의견</th>
                     </tr>
+                    <%
+                        int count2 = list2.size();
+                        if(count2 != 0) {
+                            for(int i=0; i < count2; i++) {
+                                ApprovalDto approvalDto = list2.get(i);
+                                if(i > 4)
+                                    break;
+                    %>
                     <tr>
-                        <td>22</td>
-                        <td>2020.02.30</td>
-                        <td>모아 기안서</td>
-                        <td>정현우</td>
-                        <td>미결재</td>
+                        <td><%=approvalDto.getDoc_num() %></td>
+                        <td><%=approvalDto.getDraft_date() %></td>
+                        <td><%=approvalDto.getDoc_subject() %></td>
+                        <td><%=approvalDto.getDoc_state() %></td>
                     </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr align="center">
+                        <td align="center" class="text_gray" colspan="5"><br>
+                            상신 문서가 존재하지 않습니다.<br><br>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
                 </table>
             </div>
 
@@ -98,3 +132,13 @@
 
 </body>
 </html>
+<%
+} else {
+%>
+<script>
+    alert("부적절한 URL접근입니다.");
+    document.location.href = "<%=root%>";
+</script>
+<%
+    }
+%>

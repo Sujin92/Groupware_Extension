@@ -38,7 +38,7 @@
             <%--<div id="payment-list" style="position: relative; float: left;">--%>
             <%@include file="list.jsp" %>
 
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <script>
                     function changeSelect() {
                         var sel = document.getElementById("sel");
@@ -125,14 +125,9 @@
                             }
                         } else {
                     %>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <tr align="center">
+                        <td align="center" class="text_gray" colspan="8"><br> 대기 문서가 존재하지 않습니다.<br> <br></td>
+                    </tr>
                     <%
                         }
                     %>
