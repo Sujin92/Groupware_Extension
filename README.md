@@ -1,3 +1,5 @@
-# kitri_project
+# Groupware Extension
 
-GroupWare
+now Developing... 
+
+date of final modification : 2018/01/06
